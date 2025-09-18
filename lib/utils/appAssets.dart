@@ -1,6 +1,9 @@
 class AppAssets{
   ///introScreen///
-
+  static const String introScreen1 = 'assets/images/introAssets/intro1.png';
+  static const String introScreen2 = 'assets/images/introAssets/intro2.png';
+  static const String introScreen3 = 'assets/images/introAssets/intro3.png';
+  static const String eventlyLogo = 'assets/images/eventlyAppbarLogo.png';
   ///homeScreen///
 
   ///ProfileTab///
