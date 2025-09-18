@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/providers/appLanguageProvider.dart';
 import 'package:evently_project/screens/homeScreen.dart';
+import 'package:evently_project/screens/introScreen.dart';
 import 'package:evently_project/screens/profileTab.dart';
 import 'package:evently_project/utils/appThemes.dart';
 import 'package:evently_project/utils/routeNames.dart';
@@ -30,8 +31,9 @@ class EventlyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: RouteNames.homeScreen,
+      initialRoute: RouteNames.introScreen,
       routes: {
+        RouteNames.introScreen:(context) =>IntroScreen(),
         RouteNames.homeScreen:(context) =>HomeScreen(),
         RouteNames.profileScreen:(context) =>ProfileTab(),
       },
