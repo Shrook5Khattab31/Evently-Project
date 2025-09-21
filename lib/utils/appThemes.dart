@@ -5,21 +5,30 @@ import 'appStyles.dart';
 
 class AppThemes{
   static ThemeData lightAppTheme = ThemeData(
-    scaffoldBackgroundColor: AppColors.lightThemeColor,
+    scaffoldBackgroundColor: AppColors.lightBlueColor,
     primaryColor: AppColors.primaryColor,
+    focusColor: AppColors.lightBlueColor,
+    tabBarTheme:  TabBarThemeData(
+      unselectedLabelStyle: AppStyles.medium16lightBlue,
+      labelStyle: AppStyles.medium16primary,
+      tabAlignment: TabAlignment.start,
+      dividerColor: Colors.transparent,
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(46),
+        color: AppColors.lightBlueColor,
+      ),
+    ),
+
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: AppColors.primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.circular(30),
-        side: BorderSide(color: AppColors.lightThemeColor,width: 4,),
+        side: BorderSide(color: AppColors.lightBlueColor,width: 4,),
       ),
     ),
 
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.primaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.only(bottomLeft: Radius.circular(80)),
-      ),
     ),
 
     textTheme: TextTheme(
@@ -51,20 +60,29 @@ class AppThemes{
   /// Dark Theme ///
 
   static ThemeData darkAppTheme = ThemeData(
-    scaffoldBackgroundColor: AppColors.darkThemeColor,
-    primaryColor: AppColors.darkThemeColor,
+    scaffoldBackgroundColor: AppColors.darkPrimaryColor,
+    primaryColor: AppColors.darkPrimaryColor,
+    focusColor: AppColors.primaryColor,
+    tabBarTheme:  TabBarThemeData(
+      unselectedLabelStyle: AppStyles.medium16offWhite,
+      labelStyle: AppStyles.medium16offWhite,
+      tabAlignment: TabAlignment.start,
+      dividerColor: Colors.transparent,
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(46),
+        color: AppColors.primaryColor,
+      ),
+    ),
+
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.circular(30),
-        side: BorderSide(color: AppColors.lightThemeColor,width: 4,),
+        side: BorderSide(color: AppColors.lightBlueColor,width: 4,),
       ),
     ),
 
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.primaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.only(bottomLeft: Radius.circular(80)),
-      ),
     ),
 
     textTheme: TextTheme(
@@ -76,7 +94,7 @@ class AppThemes{
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(
-      color: AppColors.darkThemeColor,
+      color: AppColors.darkPrimaryColor,
       elevation: 0,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(

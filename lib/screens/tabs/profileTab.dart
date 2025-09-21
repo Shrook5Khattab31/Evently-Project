@@ -6,7 +6,7 @@ import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/appThemeProvider.dart';
+import '../../providers/appThemeProvider.dart';
 
 class ProfileTab extends StatefulWidget {
 
@@ -23,6 +23,9 @@ class _ProfileTabState extends State<ProfileTab> {
     var themeProvider = Provider.of<AppThemeProvider>(context);
     return Scaffold(
       appBar: AppBar(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadiusGeometry.directional(bottomStart: Radius.circular(80)),
+        ),
         leading: Padding(
           padding: EdgeInsets.symmetric(vertical:height*0.019,horizontal: width*0.04),
           child: Image.asset(AppAssets.profileImg,fit: BoxFit.fill,),
