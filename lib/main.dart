@@ -4,7 +4,7 @@ import 'package:evently_project/providers/appThemeProvider.dart';
 import 'package:evently_project/screens/homeScreen.dart';
 import 'package:evently_project/screens/introScreen.dart';
 import 'package:evently_project/screens/onBoardingScreen.dart';
-import 'package:evently_project/screens/profileTab.dart';
+import 'package:evently_project/screens/tabs/profileTab.dart';
 import 'package:evently_project/utils/appThemes.dart';
 import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
