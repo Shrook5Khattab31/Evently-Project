@@ -33,6 +33,7 @@ class HomeTab extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.vertical(bottom: Radius.circular(45),),
         ),
+        automaticallyImplyLeading: false,
         title: Column(
           spacing: height*0.009,
           children: [
@@ -46,7 +47,6 @@ class HomeTab extends StatelessWidget {
                   ],
                 ),
                 Spacer(),
-                ///change the style
                 Icon(themeProvider.appTheme=='light'?
                   Icons.wb_sunny_outlined:Icons.brightness_2_sharp,
                   color: themeProvider.appTheme=='light'?
@@ -76,7 +76,7 @@ class HomeTab extends StatelessWidget {
               initialIndex: selectedIndex,
               length: events.length,
               child: TabBar(
-                padding: EdgeInsets.only(top: height*0.009),
+                padding: EdgeInsetsGeometry.only(top: height*0.009),
                 isScrollable: true,
                 labelPadding: EdgeInsetsGeometry.directional(start: width*0.02),
                 onTap: (index)=> selectedIndex=index,

@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently_project/screens/tabs/favTab/favTab.dart';
 import 'package:evently_project/screens/tabs/homeTab/homeTab.dart';
 import 'package:evently_project/screens/tabs/profileTab.dart';
 import 'package:flutter/material.dart';
@@ -70,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
     switch(index){
       case 0: return HomeTab();
       case 1: return Center(child: Text('Map'),);
-      case 2: return Center(child: Text('Fav'),);
+      case 2: return FavTab();
       case 3: return ProfileTab();
       default: return ProfileTab();
     }
