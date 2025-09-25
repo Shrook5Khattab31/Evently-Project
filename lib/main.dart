@@ -41,12 +41,11 @@ class EventlyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: RouteNames.homeScreen,
+      initialRoute: RouteNames.onBoardingScreen,
       routes: {
         RouteNames.onBoardingScreen:(context) =>OnBoardingScreen(),
         RouteNames.introScreen:(context) =>IntroScreen(),
         RouteNames.homeScreen:(context) =>HomeScreen(),
-        RouteNames.profileScreen:(context) =>ProfileTab(),
       },
     );
   }

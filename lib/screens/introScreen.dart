@@ -18,7 +18,6 @@ class _IntroScreenState extends State<IntroScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var themeProvider = Provider.of<AppThemeProvider>(context);
     var height =MediaQuery.of(context).size.height;
     var width =MediaQuery.of(context).size.width;
     return Scaffold(
@@ -28,12 +27,12 @@ class _IntroScreenState extends State<IntroScreen> {
         centerTitle: true,
         toolbarHeight: height*0.14,
         title: Padding(
-          padding: EdgeInsets.only(top: 16.0),
+          padding: EdgeInsets.only(top: height*0.019),
           child: Image.asset(AppAssets.eventlyLogo,fit: BoxFit.fitHeight,),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: EdgeInsets.symmetric(horizontal: width*0.04),
         child: IntroductionScreen(
           pages: [
             buildIntroPage(
@@ -83,7 +82,7 @@ class _IntroScreenState extends State<IntroScreen> {
             ),
             child: Icon(Icons.arrow_forward,color: AppColors.primaryColor,),
           ),
-          controlsMargin: EdgeInsets.only(bottom: 8),
+          controlsMargin: EdgeInsets.only(bottom: height*0.009),
           controlsPadding: EdgeInsets.zero,
           dotsContainerDecorator: BoxDecoration(color: Theme.of(context).scaffoldBackgroundColor,),
           dotsDecorator: DotsDecorator(
@@ -101,6 +100,7 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   PageViewModel buildIntroPage({required String image,required double height, required String title,String description=''}){
+    var themeProvider = Provider.of<AppThemeProvider>(context);
     return PageViewModel(
       decoration: PageDecoration(
         pageColor: Theme.of(context).scaffoldBackgroundColor,
@@ -112,7 +112,7 @@ class _IntroScreenState extends State<IntroScreen> {
       ),
       image: Image.asset(image),
       titleWidget: Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child:Text(
         title,
         style: AppStyles.bold20primary,
@@ -120,13 +120,13 @@ class _IntroScreenState extends State<IntroScreen> {
         ),
       ),
       bodyWidget: Align(
-        alignment: Alignment.centerLeft,
+        alignment: AlignmentDirectional.centerStart,
         child: Text(
           description,
-          style: AppStyles.medium16black,
+          style: themeProvider.appTheme=='light'?AppStyles.medium16black:AppStyles.medium16offWhite,
           textAlign: TextAlign.start,
         ),
       ),
     );
-    }
+  }
 }
