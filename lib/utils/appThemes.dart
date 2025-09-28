@@ -8,6 +8,9 @@ class AppThemes{
     scaffoldBackgroundColor: AppColors.lightBlueColor,
     primaryColor: AppColors.primaryColor,
     focusColor: AppColors.lightBlueColor,
+    dividerColor: AppColors.grayColor,
+    disabledColor: AppColors.grayColor,
+
     tabBarTheme:  TabBarThemeData(
       unselectedLabelStyle: AppStyles.medium16lightBlue,
       labelStyle: AppStyles.medium16primary,
@@ -28,14 +31,22 @@ class AppThemes{
     ),
 
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.lightBlueColor,
+      centerTitle: true,
+      iconTheme: IconThemeData(
+        color: AppColors.primaryColor,
+        size: 24
+      ),
     ),
 
     textTheme: TextTheme(
       headlineLarge: AppStyles.bold24offWhite,
-      headlineMedium: AppStyles.medium16offWhite,
+      headlineMedium: AppStyles.medium16lightBlue,
+
       bodyMedium: AppStyles.bold20black,
       bodySmall: AppStyles.medium16black,
+
+      displayMedium: AppStyles.medium16gray,
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(
@@ -63,6 +74,9 @@ class AppThemes{
     scaffoldBackgroundColor: AppColors.darkPrimaryColor,
     primaryColor: AppColors.darkPrimaryColor,
     focusColor: AppColors.primaryColor,
+    dividerColor: AppColors.primaryColor,
+    disabledColor: AppColors.offWhiteColor,
+
     tabBarTheme:  TabBarThemeData(
       unselectedLabelStyle: AppStyles.medium16offWhite,
       labelStyle: AppStyles.medium16offWhite,
@@ -82,7 +96,12 @@ class AppThemes{
     ),
 
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.primaryColor,
+      backgroundColor: AppColors.darkPrimaryColor,
+      centerTitle: true,
+      iconTheme: IconThemeData(
+        color: AppColors.primaryColor,
+        size: 24
+      ),
     ),
 
     textTheme: TextTheme(
@@ -91,6 +110,8 @@ class AppThemes{
 
       bodyMedium: AppStyles.bold20offWhite,
       bodySmall: AppStyles.medium16offWhite,
+
+      displayMedium: AppStyles.medium16offWhite,
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(

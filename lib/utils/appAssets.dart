@@ -4,12 +4,15 @@ class AppAssets{
   static const String introScreen1 = 'assets/images/introAssets/intro1.png';
   static const String introScreen2 = 'assets/images/introAssets/intro2.png';
   static const String introScreen3 = 'assets/images/introAssets/intro3.png';
-  static const String eventlyLogo = 'assets/images/eventlyAppbarLogo.png';
+  static const String eventlyAppBarLogo = 'assets/images/eventlyAppbarLogo.png';
+  ///loginScreen///
+  static const String eventlyLogo = 'assets/images/splashAssets/eventlyLogo.png';
   ///homeTab///
   static const String sportEventImg = 'assets/images/homeTabAssets/Sport_event.png';
   ///ProfileTab///
   static const String profileImg = 'assets/images/profileTabAssets/profileImg.png';
-
+  ///restPasswordScreen///
+  static const String resetPassImg= 'assets/images/resetPasswordAssets/change-setting.png';
   ///icons///
   static const String usIcon = 'assets/icons/US.png';
   static const String egIcon = 'assets/icons/EG.png';

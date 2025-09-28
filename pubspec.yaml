@@ -69,6 +69,7 @@ flutter:
     - assets/images/
     - assets/images/introAssets/
     - assets/images/splashAssets/
+    - assets/images/resetPasswordAssets/
     - assets/images/profileTabAssets/
     - assets/images/homeTabAssets/
     - assets/icons/

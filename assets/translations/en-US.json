@@ -28,5 +28,21 @@
   "holiday": "Holiday",
   "exhibition": "Exhibition",
   "workshop": "Work Shop",
-  "bookclub": "Book Club"
+  "bookclub": "Book Club",
+  "email": "Email",
+  "password": "Password",
+  "forget_password": "Forget Password?",
+  "reset_pass": "Forget Password",
+  "reset_password_button": "Reset Password",
+  "login_button": "Login",
+  "no_account": "Don’t Have Account?",
+  "create_account": "Create Account",
+  "or": "Or",
+  "login_with_google": "Login With Google",
+  "register_title": "Register",
+  "name": "Name",
+  "re_password": "Re-enter Password",
+  "create_account_button": "Create Account",
+  "already_have_account": "Already Have Account?",
+  "login": "Login"
 }

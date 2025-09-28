@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/providers/appLanguageProvider.dart';
+import 'package:evently_project/reusableWidgets/c_elevatedButton.dart';
+import 'package:evently_project/reusableWidgets/c_toggleSwitch.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
 import 'package:evently_project/utils/routeNames.dart';
@@ -25,7 +27,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     var themeProvider = Provider.of<AppThemeProvider>(context);
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var height =MediaQuery.of(context).size.height;
-    var width =MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -33,7 +34,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         toolbarHeight: height*0.14,
         title: Padding(
           padding: EdgeInsets.only(top: 16.0),
-          child: Image.asset(AppAssets.eventlyLogo,fit: BoxFit.fitHeight,),
+          child: Image.asset(AppAssets.eventlyAppBarLogo,fit: BoxFit.fitHeight,),
         ),
       ),
       body: Padding(
@@ -56,13 +57,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('language',style: AppStyles.medium20primary,).tr(),
-                buildToggleSwitch(
-                  height: height*0.03,
-                  width: width*0.1,
-                  icons: [
-                    Image.asset(AppAssets.usIcon, height: 30),
-                    Image.asset(AppAssets.egIcon, height: 30),
-                  ],
+                C_ToggleSwitch(
                   selectedIndex: selectedLanguageIndex,
                   onToggle: (index) {
                     if(index==0){
@@ -74,6 +69,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       selectedLanguageIndex = index!;
                     });
                   },
+                  icons: [
+                    Image.asset(AppAssets.usIcon, height: 30),
+                    Image.asset(AppAssets.egIcon, height: 30),
+                  ]
                 ),
               ],
             ),
@@ -81,16 +80,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text('theme',style: AppStyles.medium20primary,).tr(),
-                buildToggleSwitch(
-                  height: height*0.03,
-                  width: width*0.1,
-                  icons: [
-                    Icon(Icons.wb_sunny_outlined,
-                      color: selectedIndex ==0?
-                      Theme.of(context).scaffoldBackgroundColor: AppColors.primaryColor,),
-                    Icon(Icons.brightness_2_sharp,
-                      color: selectedIndex ==1?Theme.of(context).scaffoldBackgroundColor:AppColors.primaryColor,)
-                  ],
+                C_ToggleSwitch(
                   selectedIndex: selectedIndex,
                   onToggle: (index) {
                     if (index == 0) {
@@ -102,21 +92,18 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       selectedIndex = index!;
                     });
                   },
+                  icons: [
+                    Icon(Icons.wb_sunny_outlined,
+                      color: selectedIndex ==0?
+                      Theme.of(context).scaffoldBackgroundColor: AppColors.primaryColor,),
+                    Icon(Icons.brightness_2_sharp,
+                      color: selectedIndex ==1?Theme.of(context).scaffoldBackgroundColor:AppColors.primaryColor,)
+                  ]
                 ),
               ],
             ),
-            ElevatedButton(
-              onPressed: (){
-                Navigator.pushNamed(context, RouteNames.introScreen);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-                padding: EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadiusGeometry.circular(16)
-                )
-              ),
-              child: Text('onBoarding_button',style: AppStyles.medium20offWhite,).tr(),
+            C_elevatedButton(text: 'onBoarding_button',
+              onPressed: ()=> Navigator.pushNamed(context, RouteNames.introScreen),
             ),
           ],
         ),
