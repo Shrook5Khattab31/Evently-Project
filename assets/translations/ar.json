@@ -28,5 +28,21 @@
   "holiday": "عطلة",
   "exhibition": "معرض",
   "workshop": "ورشة عمل",
-  "bookclub": "نادي الكتاب"
+  "bookclub": "نادي الكتاب",
+  "email": "البريد الإلكتروني",
+  "password": "كلمة المرور",
+  "forget_password": "هل نسيت كلمة المرور؟",
+  "reset_pass": "استعادة كلمة المرور",
+  "reset_password_button": "إعادة تعيين كلمة المرور",
+  "login_button": "تسجيل الدخول",
+  "no_account": "ليس لديك حساب؟ ",
+  "create_account": "إنشاء حساب",
+  "or": "أو",
+  "login_with_google": "تسجيل الدخول باستخدام جوجل",
+  "register_title": "تسجيل",
+  "name": "الاسم",
+  "re_password": "إعادة كلمة المرور",
+  "create_account_button": "إنشاء حساب",
+  "already_have_account": "لديك حساب بالفعل؟",
+  "login": "تسجيل الدخول"
 }

@@ -28,7 +28,7 @@ class _IntroScreenState extends State<IntroScreen> {
         toolbarHeight: height*0.14,
         title: Padding(
           padding: EdgeInsets.only(top: height*0.019),
-          child: Image.asset(AppAssets.eventlyLogo,fit: BoxFit.fitHeight,),
+          child: Image.asset(AppAssets.eventlyAppBarLogo,fit: BoxFit.fitHeight,),
         ),
       ),
       body: Padding(
@@ -55,7 +55,7 @@ class _IntroScreenState extends State<IntroScreen> {
             ),
           ],
           onDone: () {
-            Navigator.of(context).pushReplacementNamed(RouteNames.homeScreen);
+            Navigator.of(context).pushReplacementNamed(RouteNames.loginScreen);
           },
           showBackButton: true,
           back: Container(

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/screens/tabs/favTab/favTab.dart';
 import 'package:evently_project/screens/tabs/homeTab/homeTab.dart';
-import 'package:evently_project/screens/tabs/profileTab.dart';
+import 'package:evently_project/screens/tabs/profileTab/profileTab.dart';
 import 'package:flutter/material.dart';
 import '../utils/appAssets.dart';
 import '../utils/appColors.dart';

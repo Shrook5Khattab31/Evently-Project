@@ -58,6 +58,12 @@ class AppStyles{
     fontWeight: FontWeight.w500,
     fontSize: 16,
   );
+  ///--- Primary TextStyle (regular) ---///
+  static TextStyle regular22primary= GoogleFonts.inter(
+    color: AppColors.primaryColor,
+    fontWeight: FontWeight.w400,
+    fontSize: 22,
+  );
   ///--- Primary TextStyle (bold) ---///
   static TextStyle bold20primary= GoogleFonts.inter(
     color: AppColors.primaryColor,
@@ -92,10 +98,18 @@ class AppStyles{
     fontWeight: FontWeight.bold,
     fontSize: 14,
   );
-
+  ///--- lightBlue TextStyle (medium) ---///
   static TextStyle medium16lightBlue= GoogleFonts.inter(
     color: AppColors.lightBlueColor,
     fontWeight: FontWeight.w500,
     fontSize: 16,
   );
+
+  ///--- gray TextStyle (medium) ---///
+  static TextStyle medium16gray= GoogleFonts.inter(
+    color: AppColors.grayColor,
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+  );
+
 }
