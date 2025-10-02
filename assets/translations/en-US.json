@@ -1,4 +1,5 @@
 {
+  "welcome_message": "Welcome Back ✨",
   "home": "Home",
   "map": "Map",
   "love": "Love",
@@ -45,10 +46,11 @@
   "create_account_button": "Create Account",
   "already_have_account": "Already Have Account?",
   "login": "Login",
+  "create_event": "Create Event",
   "date_required": "Please choose a date",
   "time_required": "Please choose a time",
   "title": "Event Title",
-  "description": "Event Description",
+  "description": "Description",
   "event_date": "Event Date",
   "event_time": "Event Time",
   "location": "Location",
@@ -57,5 +59,9 @@
   "event_title": "Event Title",
   "event_description": "Event Description",
   "choose_date": "Choose Date",
-  "choose_time": "Choose Time"
+  "choose_time": "Choose Time",
+  "event_details": "Event Details",
+  "edit_event": "Edit Event",
+  "add_event": "Add Event",
+  "update_event": "Update Event"
 }

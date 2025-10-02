@@ -11,6 +11,7 @@ class AppThemes{
     dividerColor: AppColors.grayColor,
     disabledColor: AppColors.grayColor,
     cardColor: AppColors.blackColor,
+    canvasColor: AppColors.lightBlueColor,
 
     tabBarTheme:  TabBarThemeData(
       unselectedLabelStyle: AppStyles.medium16lightBlue,
@@ -44,6 +45,7 @@ class AppThemes{
     textTheme: TextTheme(
       headlineLarge: AppStyles.bold24offWhite,
       headlineMedium: AppStyles.medium16lightBlue,
+      headlineSmall: AppStyles.bold14primary,
 
       bodyMedium: AppStyles.bold20black,
       bodySmall: AppStyles.medium16black,
@@ -80,6 +82,7 @@ class AppThemes{
     dividerColor: AppColors.primaryColor,
     disabledColor: AppColors.offWhiteColor,
     cardColor: AppColors.offWhiteColor,
+    canvasColor: AppColors.offWhiteColor,
 
     tabBarTheme:  TabBarThemeData(
       unselectedLabelStyle: AppStyles.medium16offWhite,
@@ -112,6 +115,7 @@ class AppThemes{
     textTheme: TextTheme(
       headlineLarge: AppStyles.bold24offWhite,
       headlineMedium: AppStyles.medium16offWhite,
+      headlineSmall: AppStyles.bold14darkPrimary,
 
       bodyMedium: AppStyles.bold20offWhite,
       bodySmall: AppStyles.medium16offWhite,
