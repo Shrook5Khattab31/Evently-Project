@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class EventModel {
-  final String title;
-  final String description;
-  final DateTime date;
-  final TimeOfDay time;
-  final String location;
-  final String category;
+   String title;
+   String description;
+   DateTime date;
+   TimeOfDay time;
+   String location;
+   String category;
 
   EventModel({
     required this.title,

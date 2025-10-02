@@ -1,4 +1,4 @@
-import 'package:evently_project/eventModel.dart';
+import 'package:evently_project/screens/eventCreation/eventInfo/eventModel.dart';
 import 'package:evently_project/utils/appAssets.dart';
 
 class EventRepository {

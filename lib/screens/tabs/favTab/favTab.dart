@@ -4,11 +4,17 @@ import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-import '../../../eventRepository.dart';
+import '../../eventCreation/eventInfo/eventRepository.dart';
+import '../../../utils/routeNames.dart';
 import '../homeTab/widgets/eventsWidget.dart';
 
-class FavTab extends StatelessWidget {
+class FavTab extends StatefulWidget {
 
+  @override
+  State<FavTab> createState() => _FavTabState();
+}
+
+class _FavTabState extends State<FavTab> {
   @override
   Widget build(BuildContext context) {
     var width=MediaQuery.of(context).size.width;
@@ -32,7 +38,15 @@ class FavTab extends StatelessWidget {
                 padding: EdgeInsets.only(top: 16),
                 itemBuilder: (context, index)  {
                   final event = EventRepository.events[index];
-                  return EventsWidget(event: event);
+                  return InkWell(
+                    onTap: () async {
+                      final deleted = await Navigator.pushNamed(context, RouteNames.eventDetailsScreen,arguments: event);
+                      if (deleted == true) {
+                        setState(() {});
+                      }
+                    },
+                    child: EventsWidget(event: event),
+                  );
                 },
                 separatorBuilder: (context, index) => SizedBox(height: height*0.019,),
                 itemCount: EventRepository.events.length,

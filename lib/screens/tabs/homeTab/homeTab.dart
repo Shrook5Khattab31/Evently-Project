@@ -1,19 +1,26 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/screens/tabs/homeTab/widgets/customTab.dart';
 import 'package:evently_project/screens/tabs/homeTab/widgets/eventsWidget.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
+import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import '../../../eventModel.dart';
-import '../../../eventRepository.dart';
+import '../../eventCreation/eventInfo/eventRepository.dart';
 import '../../../providers/appLanguageProvider.dart';
 import '../../../providers/appThemeProvider.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
   List<String> categories = [ 'all', 'sport','birthday', 'meeting',
     'gaming','eating', 'holiday','exhibition','workshop','bookclub'
   ];
+
   List<IconData> eventIcons = [
     LineAwesome.compass,Icons.directions_bike,
     LineAwesome.birthday_cake_solid, LineAwesome.database_solid,
@@ -23,6 +30,7 @@ class HomeTab extends StatelessWidget {
   ];
 
   int selectedIndex=0;
+
   @override
   Widget build(BuildContext context) {
     var width=MediaQuery.of(context).size.width;
@@ -45,26 +53,23 @@ class HomeTab extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Welcome Back ✨',style: AppStyles.regular14offWhite,),
+                    Text('welcome_message',style: AppStyles.regular14offWhite,).tr(),
                     Text('John Safwat',style: AppStyles.bold24offWhite,),
                   ],
                 ),
                 Spacer(),
                 Icon(themeProvider.appTheme=='light'?
                   Icons.wb_sunny_outlined:Icons.brightness_2_sharp,
-                  color: themeProvider.appTheme=='light'?
-                  AppColors.lightBlueColor:AppColors.offWhiteColor,),
+                  color: Theme.of(context).canvasColor,),
                 Container(
                   margin: EdgeInsetsDirectional.only(start: width*0.03),
                   padding: EdgeInsets.symmetric(horizontal: width*0.02,vertical: height*0.009),
                   decoration: BoxDecoration(
-                    color: themeProvider.appTheme=='light'?
-                    AppColors.lightBlueColor:AppColors.offWhiteColor,
+                    color: Theme.of(context).canvasColor,
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Text((languageProvider.appLanguage).toUpperCase(),
-                    style: themeProvider.appTheme=='light'?
-                    AppStyles.bold14primary:AppStyles.bold14darkPrimary,
+                    style: Theme.of(context).textTheme.headlineSmall,
                   ),
                 ),
               ],
@@ -99,8 +104,11 @@ class HomeTab extends StatelessWidget {
                 itemBuilder: (context, index) {
                 final event = EventRepository.events[index];
                   return InkWell(
-                    onTap: () {
-
+                    onTap: () async {
+                      final changed = await Navigator.pushNamed(context, RouteNames.eventDetailsScreen,arguments: event);
+                      if (changed == true) {
+                        setState(() {});
+                      }
                     },
                     child: EventsWidget(event: event),
                   );

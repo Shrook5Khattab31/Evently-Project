@@ -5,8 +5,8 @@ import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import '../../../../eventModel.dart';
-import '../../../../eventRepository.dart';
+import '../../../eventCreation/eventInfo/eventModel.dart';
+import '../../../eventCreation/eventInfo/eventRepository.dart';
 import '../../../../providers/appThemeProvider.dart';
 
 class EventsWidget extends StatelessWidget {
