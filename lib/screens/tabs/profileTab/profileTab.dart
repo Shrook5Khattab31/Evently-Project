@@ -4,8 +4,8 @@ import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
+import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-
 import '../../../providers/appThemeProvider.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -29,7 +29,17 @@ class _ProfileTabState extends State<ProfileTab> {
         ),
         leading: Padding(
           padding: EdgeInsets.symmetric(vertical:height*0.019,horizontal: width*0.04),
-          child: Image.asset(AppAssets.profileImg,fit: BoxFit.fill,),
+          child: Container(
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadiusDirectional.only(
+                topEnd: Radius.circular(80),
+                bottomStart: Radius.circular(80),
+                bottomEnd: Radius.circular(80)
+              ),
+              image: DecorationImage(image:  AssetImage(AppAssets.profileImg,),fit: BoxFit.fill,)
+            ),
+          ),
         ),
         leadingWidth: width*0.39,
         toolbarHeight: height*0.18,
@@ -111,29 +121,34 @@ class _ProfileTabState extends State<ProfileTab> {
     required List<String> items,
     required ValueChanged<String?> onChanged,
     required String Function(String) labelBuilder,}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 16,vertical: 6),
-      decoration: BoxDecoration(
-        border: Border.all(color: AppColors.primaryColor, width: 2),
-        borderRadius: BorderRadius.circular(16),
+    return DropdownButtonFormField<String>(
+      dropdownColor: Theme.of(context).scaffoldBackgroundColor,
+      initialValue: value,
+      iconEnabledColor: AppColors.primaryColor,
+      iconSize: 40,
+      decoration: InputDecoration(
+        border: buildBorder(),
+        enabledBorder: buildBorder(),
+        focusedBorder: buildBorder(),
       ),
-      child: DropdownButtonFormField<String>(
-        initialValue: value,
-        style: AppStyles.bold20primary,
-        decoration: InputDecoration(
-          border: InputBorder.none,
-        ),
-        items: items.map((code) {
-          return DropdownMenuItem(
-            value: code,
-            child: Text(
-              labelBuilder(code),
-              style: code==value?AppStyles.bold20primary:AppStyles.bold20black,
-            ),
-          );
-        }).toList(),
-        onChanged: onChanged,
-      ),
+      items: items.map((code) {
+        return DropdownMenuItem(
+          value: code,
+          child: Text(
+            labelBuilder(code),
+            style: code==value?
+              AppStyles.bold20primary:
+              Theme.of(context).textTheme.displaySmall,
+          ),
+        );
+      }).toList(),
+      onChanged: onChanged,
+    );
+  }
+  OutlineInputBorder buildBorder(){
+    return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(16),
+      borderSide: BorderSide(color: AppColors.primaryColor)
     );
   }
 }

@@ -30,7 +30,7 @@ class C_textFormField extends StatelessWidget {
       style: Theme.of(context).textTheme.displayMedium,
       validator: (text){
         if(text ==null || text.trim().isEmpty){
-          return 'Please enter the information required';
+          return 'please_enter_required_info'.tr();
         }
         return null;
       },
