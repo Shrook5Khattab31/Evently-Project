@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           },
           child: Icon(Icons.arrow_back)
         ),
-        title: Text('register_title',style: AppStyles.regular22primary,).tr(),
+        title: Text('register_title').tr(),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width*0.04),
@@ -61,7 +61,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       prefixIcon: Icon(BoxIcons.bxs_lock),
                       suffixIcon: Icon(BoxIcons.bxs_hide),
                     ),
-                    C_elevatedButton(text: 'create_account',
+                    C_elevatedButton(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text('create_account',style: AppStyles.medium20offWhite,).tr(),
+                        ],
+                      ),
                       onPressed: (){
                         Navigator.pushNamed(context, RouteNames.homeScreen);
                       }
@@ -73,9 +79,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text('already_have_account',style: Theme.of(context).textTheme.bodySmall).tr(),
-                  C_hyperLink(text: 'login', onPressed: (){
-                    Navigator.pushNamed(context, RouteNames.loginScreen);
-                  }),
+                  C_hyperLink(text: 'login',
+                    isItalic: true,
+                    isUnderlined: true,
+                    onPressed: (){
+                      Navigator.pushNamed(context, RouteNames.loginScreen);
+                    }
+                  ),
                 ],
               ),
               Padding(

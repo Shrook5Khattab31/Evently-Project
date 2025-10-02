@@ -44,5 +44,18 @@
   "re_password": "Re-enter Password",
   "create_account_button": "Create Account",
   "already_have_account": "Already Have Account?",
-  "login": "Login"
+  "login": "Login",
+  "date_required": "Please choose a date",
+  "time_required": "Please choose a time",
+  "title": "Event Title",
+  "description": "Event Description",
+  "event_date": "Event Date",
+  "event_time": "Event Time",
+  "location": "Location",
+  "choose_location": "Choose Event Location",
+  "add": "Add Event",
+  "event_title": "Event Title",
+  "event_description": "Event Description",
+  "choose_date": "Choose Date",
+  "choose_time": "Choose Time"
 }

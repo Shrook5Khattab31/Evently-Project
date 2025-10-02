@@ -12,7 +12,6 @@ class ResetPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     var height =MediaQuery.of(context).size.height;
     var width =MediaQuery.of(context).size.width;
-    var languageProvider = Provider.of<AppLanguageProvider>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height*0.076,
@@ -22,7 +21,7 @@ class ResetPasswordScreen extends StatelessWidget {
             },
             child: Icon(Icons.arrow_back)
         ),
-        title: Text('reset_pass',style: AppStyles.regular22primary,).tr(),
+        title: Text('reset_pass').tr(),
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: width*0.04),
@@ -31,7 +30,15 @@ class ResetPasswordScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Image.asset(AppAssets.resetPassImg),
-            C_elevatedButton(text: 'reset_password_button', onPressed: (){}),
+            C_elevatedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('reset_password_button',style: AppStyles.medium20offWhite,).tr(),
+                ],
+              ),
+              onPressed: (){}
+            ),
           ],
         ),
       ),

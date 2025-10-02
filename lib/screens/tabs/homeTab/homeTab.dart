@@ -5,20 +5,23 @@ import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
+import '../../../eventModel.dart';
+import '../../../eventRepository.dart';
 import '../../../providers/appLanguageProvider.dart';
 import '../../../providers/appThemeProvider.dart';
 
 class HomeTab extends StatelessWidget {
-  List<String> events = [ 'all',
-    'sport','birthday','meeting','gaming','eating',
-    'holiday','exhibition','workshop','bookclub'
+  List<String> categories = [ 'all', 'sport','birthday', 'meeting',
+    'gaming','eating', 'holiday','exhibition','workshop','bookclub'
   ];
   List<IconData> eventIcons = [
-    LineAwesome.compass,Icons.directions_bike,LineAwesome.birthday_cake_solid,
-    LineAwesome.compass,LineAwesome.compass,LineAwesome.compass,
-    LineAwesome.compass,LineAwesome.compass,LineAwesome.compass,
-    LineAwesome.compass,
+    LineAwesome.compass,Icons.directions_bike,
+    LineAwesome.birthday_cake_solid, LineAwesome.database_solid,
+    LineAwesome.gamepad_solid, LineAwesome.glass_martini_solid,
+    LineAwesome.ship_solid,LineAwesome.glasses_solid,
+    LineAwesome.warehouse_solid,LineAwesome.book_open_solid,
   ];
+
   int selectedIndex=0;
   @override
   Widget build(BuildContext context) {
@@ -74,14 +77,14 @@ class HomeTab extends StatelessWidget {
             ),
             DefaultTabController(
               initialIndex: selectedIndex,
-              length: events.length,
+              length: categories.length,
               child: TabBar(
                 padding: EdgeInsetsGeometry.only(top: height*0.009),
                 isScrollable: true,
                 labelPadding: EdgeInsetsGeometry.directional(start: width*0.02),
                 onTap: (index)=> selectedIndex=index,
-                tabs: List.generate(events.length, (index)=>
-                  CustomTab(icon: eventIcons[index], label: events[index])),
+                tabs: List.generate(categories.length, (index)=>
+                  CustomTab(icon: eventIcons[index], label: categories[index])),
               ),
             ),
           ],
@@ -93,9 +96,17 @@ class HomeTab extends StatelessWidget {
           children: [
             Expanded(
               child: ListView.separated(
-                itemBuilder: (context, index) => EventsWidget(),
+                itemBuilder: (context, index) {
+                final event = EventRepository.events[index];
+                  return InkWell(
+                    onTap: () {
+
+                    },
+                    child: EventsWidget(event: event),
+                  );
+                },
                 separatorBuilder: (context, index) => SizedBox(height: height*0.019,),
-                itemCount: 4,
+                itemCount: EventRepository.events.length,
               ),
             ),
           ],

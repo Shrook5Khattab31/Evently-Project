@@ -10,6 +10,7 @@ class AppThemes{
     focusColor: AppColors.lightBlueColor,
     dividerColor: AppColors.grayColor,
     disabledColor: AppColors.grayColor,
+    cardColor: AppColors.blackColor,
 
     tabBarTheme:  TabBarThemeData(
       unselectedLabelStyle: AppStyles.medium16lightBlue,
@@ -32,6 +33,7 @@ class AppThemes{
 
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.lightBlueColor,
+      titleTextStyle: AppStyles.regular22primary,
       centerTitle: true,
       iconTheme: IconThemeData(
         color: AppColors.primaryColor,
@@ -47,6 +49,7 @@ class AppThemes{
       bodySmall: AppStyles.medium16black,
 
       displayMedium: AppStyles.medium16gray,
+      displayLarge: AppStyles.bold16lightBlue,
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(
@@ -76,6 +79,7 @@ class AppThemes{
     focusColor: AppColors.primaryColor,
     dividerColor: AppColors.primaryColor,
     disabledColor: AppColors.offWhiteColor,
+    cardColor: AppColors.offWhiteColor,
 
     tabBarTheme:  TabBarThemeData(
       unselectedLabelStyle: AppStyles.medium16offWhite,
@@ -98,6 +102,7 @@ class AppThemes{
     appBarTheme: AppBarTheme(
       backgroundColor: AppColors.darkPrimaryColor,
       centerTitle: true,
+      titleTextStyle: AppStyles.regular22primary,
       iconTheme: IconThemeData(
         color: AppColors.primaryColor,
         size: 24
@@ -112,6 +117,7 @@ class AppThemes{
       bodySmall: AppStyles.medium16offWhite,
 
       displayMedium: AppStyles.medium16offWhite,
+      displayLarge: AppStyles.bold16darkPrimary,
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(

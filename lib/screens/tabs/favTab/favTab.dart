@@ -4,6 +4,7 @@ import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
+import '../../../eventRepository.dart';
 import '../homeTab/widgets/eventsWidget.dart';
 
 class FavTab extends StatelessWidget {
@@ -29,9 +30,12 @@ class FavTab extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 padding: EdgeInsets.only(top: 16),
-                itemBuilder: (context, index) => EventsWidget(),
+                itemBuilder: (context, index)  {
+                  final event = EventRepository.events[index];
+                  return EventsWidget(event: event);
+                },
                 separatorBuilder: (context, index) => SizedBox(height: height*0.019,),
-                itemCount: 4,
+                itemCount: EventRepository.events.length,
               ),
             ),
           ],
