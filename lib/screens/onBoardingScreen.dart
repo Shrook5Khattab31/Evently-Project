@@ -102,7 +102,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
               ],
             ),
-            C_elevatedButton(text: 'onBoarding_button',
+            C_elevatedButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('onBoarding_button',style: AppStyles.medium20offWhite,).tr(),
+                ],
+              ),
               onPressed: ()=> Navigator.pushNamed(context, RouteNames.introScreen),
             ),
           ],

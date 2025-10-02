@@ -4,6 +4,7 @@ import 'package:evently_project/providers/appThemeProvider.dart';
 import 'package:evently_project/screens/auth/loginScreen.dart';
 import 'package:evently_project/screens/auth/registerScreen.dart';
 import 'package:evently_project/screens/auth/resetPasswordScreen.dart';
+import 'package:evently_project/screens/createEventsScreen.dart';
 import 'package:evently_project/screens/homeScreen.dart';
 import 'package:evently_project/screens/introScreen.dart';
 import 'package:evently_project/screens/onBoardingScreen.dart';
@@ -44,7 +45,7 @@ class EventlyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: RouteNames.loginScreen,
+      initialRoute: RouteNames.homeScreen,
       routes: {
         RouteNames.onBoardingScreen:(context) =>OnBoardingScreen(),
         RouteNames.introScreen:(context) =>IntroScreen(),
@@ -52,6 +53,7 @@ class EventlyApp extends StatelessWidget {
         RouteNames.registerScreen:(context) => RegisterScreen(),
         RouteNames.resetPasswordScreen:(context) => ResetPasswordScreen(),
         RouteNames.homeScreen:(context) =>HomeScreen(),
+        RouteNames.createEventsScreen:(context) =>CreateEventsScreen(),
       },
     );
   }

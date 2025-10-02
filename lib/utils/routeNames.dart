@@ -5,4 +5,5 @@ class RouteNames{
   static const String loginScreen= 'loginScreen';
   static const String registerScreen= 'registerScreen';
   static const String resetPasswordScreen= 'resetPasswordScreen';
+  static const String createEventsScreen= 'createEventsScreen';
 }

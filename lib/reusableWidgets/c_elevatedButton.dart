@@ -6,40 +6,37 @@ import '../utils/appStyles.dart';
 
 class C_elevatedButton extends StatelessWidget {
   OnPressed onPressed;
-  String text;
   TextStyle? textStyle;
   Color? backgroundColor;
   Color? borderColor;
-  Widget? prefixIcon;
-  C_elevatedButton({required this.text,
+  Widget? child;
+  EdgeInsets? padding;
+  C_elevatedButton({
     required this.onPressed,
     this.backgroundColor,
     this.borderColor,
     this.textStyle,
-    this.prefixIcon,
+    this.padding,
+    required this.child,
   });
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: backgroundColor??AppColors.primaryColor,
-        padding: EdgeInsets.symmetric(vertical: 16),
+        padding: padding??EdgeInsets.symmetric(vertical: height*0.019),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadiusGeometry.circular(16),
           side: BorderSide(color: borderColor??Colors.transparent),
         ),
       ),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          prefixIcon != null ? Row(
-            children: [
-              prefixIcon!,
-              const SizedBox(width: 8),
-            ],
-          ) : const SizedBox.shrink(),
-          Text(text,style: textStyle??AppStyles.medium20offWhite,).tr(),
+          Expanded(
+            child: child!,
+          ),
         ],
       ),
     );

@@ -45,6 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   C_hyperLink(
                     text: 'forget_password',
+                    isItalic: true,
+                    isUnderlined: true,
                     alignment: AlignmentDirectional.topEnd,
                     onPressed: (){
                       Navigator.pushNamed(context, RouteNames.resetPasswordScreen);
@@ -55,7 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
               Column(
                 spacing: height*0.02,
                 children: [
-                  C_elevatedButton(text: 'login_button',
+                  C_elevatedButton(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('login_button',style: AppStyles.medium20offWhite,).tr()
+                      ],
+                    ),
                     onPressed: (){
                       Navigator.pushNamed(context, RouteNames.homeScreen);
                     }
@@ -65,6 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Text('no_account',style: Theme.of(context).textTheme.bodySmall).tr(),
                       C_hyperLink(text: 'create_account',
+                        isItalic: true,
+                        isUnderlined: true,
                         onPressed: (){
                           Navigator.pushNamed(context, RouteNames.registerScreen);
                         }
@@ -81,11 +91,17 @@ class _LoginScreenState extends State<LoginScreen> {
                       Expanded(child: Divider(color: AppColors.primaryColor,endIndent: width*0.06,)),
                     ],
                   ),
-                  C_elevatedButton(text: 'login_with_google',
+                  C_elevatedButton(
                     borderColor: AppColors.primaryColor,
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                    textStyle: AppStyles.medium20primary,
-                    prefixIcon: Brand(Brands.google),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Brand(Brands.google),
+                        SizedBox(width: width*0.002,),
+                        Text('login_with_google',style:AppStyles.medium20primary).tr(),
+                      ],
+                    ),
                     onPressed: (){
                       Navigator.pushNamed(context, RouteNames.homeScreen);
                     }

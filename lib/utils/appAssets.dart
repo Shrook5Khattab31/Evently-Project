@@ -9,6 +9,14 @@ class AppAssets{
   static const String eventlyLogo = 'assets/images/splashAssets/eventlyLogo.png';
   ///homeTab///
   static const String sportEventImg = 'assets/images/homeTabAssets/Sport_event.png';
+  static const String gamingEventImg = 'assets/images/homeTabAssets/gaming_event.png';
+  static const String holidayEventImg = 'assets/images/homeTabAssets/Holiday_event.png';
+  static const String meetingEventImg = 'assets/images/homeTabAssets/Meeting_event.png';
+  static const String birthdayEventImg = 'assets/images/homeTabAssets/Bidthday_event.png';
+  static const String workshopEventImg = 'assets/images/homeTabAssets/workshop_event.png';
+  static const String exhibitionEventImg = 'assets/images/homeTabAssets/exhibition_event.png';
+  static const String eatingEventImg = 'assets/images/homeTabAssets/eating_event.png';
+  static const String bookClubEventImg = 'assets/images/homeTabAssets/BookClub_event.png';
   ///ProfileTab///
   static const String profileImg = 'assets/images/profileTabAssets/profileImg.png';
   ///restPasswordScreen///

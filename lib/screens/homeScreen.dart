@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/screens/tabs/favTab/favTab.dart';
 import 'package:evently_project/screens/tabs/homeTab/homeTab.dart';
 import 'package:evently_project/screens/tabs/profileTab/profileTab.dart';
+import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import '../utils/appAssets.dart';
 import '../utils/appColors.dart';
@@ -35,7 +36,9 @@ class _HomeScreenState extends State<HomeScreen> {
         offset: Offset(0, 6),
         child:FloatingActionButton(
           backgroundColor: Theme.of(context).bottomAppBarTheme.color,
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, RouteNames.createEventsScreen);
+          },
           child: Icon(Icons.add, size: 40, color: AppColors.offWhiteColor,),
         ),
       ),
