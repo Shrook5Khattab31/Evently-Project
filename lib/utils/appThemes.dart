@@ -48,8 +48,10 @@ class AppThemes{
       headlineSmall: AppStyles.bold14primary,
 
       bodyMedium: AppStyles.bold20black,
+      bodyLarge: AppStyles.bold20primary,
       bodySmall: AppStyles.medium16black,
 
+      displaySmall: AppStyles.bold20black,
       displayMedium: AppStyles.medium16gray,
       displayLarge: AppStyles.bold16lightBlue,
     ),
@@ -118,8 +120,10 @@ class AppThemes{
       headlineSmall: AppStyles.bold14darkPrimary,
 
       bodyMedium: AppStyles.bold20offWhite,
+      bodyLarge: AppStyles.bold20darkPrimary,
       bodySmall: AppStyles.medium16offWhite,
 
+      displaySmall: AppStyles.bold20offWhite,
       displayMedium: AppStyles.medium16offWhite,
       displayLarge: AppStyles.bold16darkPrimary,
     ),

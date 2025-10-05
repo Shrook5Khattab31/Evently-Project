@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/reusableWidgets/c_textFormField.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
@@ -26,7 +27,7 @@ class _FavTabState extends State<FavTab> {
           children: [
             SizedBox(
               child: C_textFormField(
-                hintText: 'Search for Event',
+                hintText: 'search_for_event'.tr(),
                 prefixIcon: Icon(BoxIcons.bx_search),
                 borderColor: AppColors.primaryColor,
                 hintStyle: AppStyles.bold14primary,

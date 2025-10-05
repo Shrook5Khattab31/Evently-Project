@@ -113,6 +113,11 @@ class AppStyles{
     fontWeight: FontWeight.bold,
     fontSize: 16,
   );
+  static TextStyle bold20darkPrimary= GoogleFonts.inter(
+    color: AppColors.darkPrimaryColor,
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+  );
   ///--- lightBlue TextStyle (medium) ---///
   static TextStyle medium16lightBlue= GoogleFonts.inter(
     color: AppColors.lightBlueColor,
