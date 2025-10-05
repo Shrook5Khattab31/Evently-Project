@@ -5,28 +5,55 @@ import 'appStyles.dart';
 
 class AppThemes{
   static ThemeData lightAppTheme = ThemeData(
-    scaffoldBackgroundColor: AppColors.lightThemeColor,
+    scaffoldBackgroundColor: AppColors.lightBlueColor,
     primaryColor: AppColors.primaryColor,
+    focusColor: AppColors.lightBlueColor,
+    dividerColor: AppColors.grayColor,
+    disabledColor: AppColors.grayColor,
+    cardColor: AppColors.blackColor,
+    canvasColor: AppColors.lightBlueColor,
+
+    tabBarTheme:  TabBarThemeData(
+      unselectedLabelStyle: AppStyles.medium16lightBlue,
+      labelStyle: AppStyles.medium16primary,
+      tabAlignment: TabAlignment.start,
+      dividerColor: Colors.transparent,
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(46),
+        color: AppColors.lightBlueColor,
+      ),
+    ),
+
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       backgroundColor: AppColors.primaryColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.circular(30),
-        side: BorderSide(color: AppColors.lightThemeColor,width: 4,),
+        side: BorderSide(color: AppColors.lightBlueColor,width: 4,),
       ),
     ),
 
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.primaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.only(bottomLeft: Radius.circular(80)),
+      backgroundColor: AppColors.lightBlueColor,
+      titleTextStyle: AppStyles.regular22primary,
+      centerTitle: true,
+      iconTheme: IconThemeData(
+        color: AppColors.primaryColor,
+        size: 24
       ),
     ),
 
     textTheme: TextTheme(
       headlineLarge: AppStyles.bold24offWhite,
-      headlineMedium: AppStyles.medium16offWhite,
+      headlineMedium: AppStyles.medium16lightBlue,
+      headlineSmall: AppStyles.bold14primary,
+
       bodyMedium: AppStyles.bold20black,
+      bodyLarge: AppStyles.bold20primary,
       bodySmall: AppStyles.medium16black,
+
+      displaySmall: AppStyles.bold20black,
+      displayMedium: AppStyles.medium16gray,
+      displayLarge: AppStyles.bold16lightBlue,
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(
@@ -51,32 +78,58 @@ class AppThemes{
   /// Dark Theme ///
 
   static ThemeData darkAppTheme = ThemeData(
-    scaffoldBackgroundColor: AppColors.darkThemeColor,
-    primaryColor: AppColors.darkThemeColor,
+    scaffoldBackgroundColor: AppColors.darkPrimaryColor,
+    primaryColor: AppColors.darkPrimaryColor,
+    focusColor: AppColors.primaryColor,
+    dividerColor: AppColors.primaryColor,
+    disabledColor: AppColors.offWhiteColor,
+    cardColor: AppColors.offWhiteColor,
+    canvasColor: AppColors.offWhiteColor,
+
+    tabBarTheme:  TabBarThemeData(
+      unselectedLabelStyle: AppStyles.medium16offWhite,
+      labelStyle: AppStyles.medium16offWhite,
+      tabAlignment: TabAlignment.start,
+      dividerColor: Colors.transparent,
+      indicator: BoxDecoration(
+        borderRadius: BorderRadius.circular(46),
+        color: AppColors.primaryColor,
+      ),
+    ),
+
     floatingActionButtonTheme: FloatingActionButtonThemeData(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadiusGeometry.circular(30),
-        side: BorderSide(color: AppColors.lightThemeColor,width: 4,),
+        side: BorderSide(color: AppColors.lightBlueColor,width: 4,),
       ),
     ),
 
     appBarTheme: AppBarTheme(
-      backgroundColor: AppColors.primaryColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadiusGeometry.only(bottomLeft: Radius.circular(80)),
+      backgroundColor: AppColors.darkPrimaryColor,
+      centerTitle: true,
+      titleTextStyle: AppStyles.regular22primary,
+      iconTheme: IconThemeData(
+        color: AppColors.primaryColor,
+        size: 24
       ),
     ),
 
     textTheme: TextTheme(
       headlineLarge: AppStyles.bold24offWhite,
       headlineMedium: AppStyles.medium16offWhite,
+      headlineSmall: AppStyles.bold14darkPrimary,
 
       bodyMedium: AppStyles.bold20offWhite,
+      bodyLarge: AppStyles.bold20darkPrimary,
       bodySmall: AppStyles.medium16offWhite,
+
+      displaySmall: AppStyles.bold20offWhite,
+      displayMedium: AppStyles.medium16offWhite,
+      displayLarge: AppStyles.bold16darkPrimary,
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(
-      color: AppColors.darkThemeColor,
+      color: AppColors.darkPrimaryColor,
       elevation: 0,
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(

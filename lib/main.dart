@@ -1,10 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/providers/appLanguageProvider.dart';
 import 'package:evently_project/providers/appThemeProvider.dart';
+import 'package:evently_project/screens/auth/loginScreen.dart';
+import 'package:evently_project/screens/auth/registerScreen.dart';
+import 'package:evently_project/screens/auth/resetPasswordScreen.dart';
+import 'package:evently_project/screens/eventCreation/createEventsScreen.dart';
+import 'package:evently_project/screens/eventCreation/editEventScreen.dart';
+import 'package:evently_project/screens/eventCreation/eventDetailsScreen.dart';
 import 'package:evently_project/screens/homeScreen.dart';
 import 'package:evently_project/screens/introScreen.dart';
 import 'package:evently_project/screens/onBoardingScreen.dart';
-import 'package:evently_project/screens/profileTab.dart';
+import 'package:evently_project/screens/tabs/profileTab/profileTab.dart';
 import 'package:evently_project/utils/appThemes.dart';
 import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
@@ -41,12 +47,17 @@ class EventlyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: RouteNames.homeScreen,
+      initialRoute: RouteNames.onBoardingScreen,
       routes: {
         RouteNames.onBoardingScreen:(context) =>OnBoardingScreen(),
         RouteNames.introScreen:(context) =>IntroScreen(),
+        RouteNames.loginScreen:(context) =>LoginScreen(),
+        RouteNames.registerScreen:(context) => RegisterScreen(),
+        RouteNames.resetPasswordScreen:(context) => ResetPasswordScreen(),
         RouteNames.homeScreen:(context) =>HomeScreen(),
-        RouteNames.profileScreen:(context) =>ProfileTab(),
+        RouteNames.createEventsScreen:(context) =>CreateEventsScreen(),
+        RouteNames.eventDetailsScreen:(context) =>EventDetailsScreen(),
+        RouteNames.editEventScreen:(context) =>EditEventsScreen(),
       },
     );
   }
