@@ -49,10 +49,14 @@ class EventDetailsScreen extends StatelessWidget {
             onTap: () async {
               eventProvider.deleteEvent(event);
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Event deleted successfully')),
+                SnackBar(
+                  content: Text('Event deleted successfully'),
+                  backgroundColor: AppColors.primaryColor,
+                  duration: Duration(seconds: 1),
+                ),
               );
               eventProvider.getAllEvents();
-              Future.delayed(Duration(seconds: 1), () {
+              Future.delayed(Duration(seconds: 2), () {
                 Navigator.pop(context);
               });
             },

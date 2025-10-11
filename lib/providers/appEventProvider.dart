@@ -40,7 +40,7 @@ class AppEventProvider extends ChangeNotifier{
      'event_time': event.eventTime,
      'location': event.location,
    });
-   deleteEvent(event);
+   //deleteEvent(event);
    selectedIndex==0? getAllEvents():getFilteredEvents();
    notifyListeners();
   }

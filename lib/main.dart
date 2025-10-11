@@ -53,7 +53,7 @@ class EventlyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      initialRoute: RouteNames.onBoardingScreen,
+      initialRoute: RouteNames.homeScreen,
       routes: {
         RouteNames.onBoardingScreen:(context) =>OnBoardingScreen(),
         RouteNames.introScreen:(context) =>IntroScreen(),
