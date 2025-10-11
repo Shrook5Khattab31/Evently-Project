@@ -1,29 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/providers/appLanguageProvider.dart';
 import 'package:evently_project/providers/appThemeProvider.dart';
+import 'package:evently_project/providers/appEventProvider.dart';
 import 'package:evently_project/screens/auth/loginScreen.dart';
 import 'package:evently_project/screens/auth/registerScreen.dart';
 import 'package:evently_project/screens/auth/resetPasswordScreen.dart';
 import 'package:evently_project/screens/eventCreation/createEventsScreen.dart';
-import 'package:evently_project/screens/eventCreation/editEventScreen.dart';
-import 'package:evently_project/screens/eventCreation/eventDetailsScreen.dart';
 import 'package:evently_project/screens/homeScreen.dart';
 import 'package:evently_project/screens/introScreen.dart';
 import 'package:evently_project/screens/onBoardingScreen.dart';
-import 'package:evently_project/screens/tabs/profileTab/profileTab.dart';
 import 'package:evently_project/utils/appThemes.dart';
 import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await FirebaseFirestore.instance.disableNetwork();
   await EasyLocalization.ensureInitialized();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context)=> AppLanguageProvider()),
         ChangeNotifierProvider(create: (context)=> AppThemeProvider()),
+        ChangeNotifierProvider(create: (context)=> AppEventProvider()),
       ],
       child: EasyLocalization(
         supportedLocales: [Locale('en', 'US'), Locale('ar')],
@@ -56,8 +62,6 @@ class EventlyApp extends StatelessWidget {
         RouteNames.resetPasswordScreen:(context) => ResetPasswordScreen(),
         RouteNames.homeScreen:(context) =>HomeScreen(),
         RouteNames.createEventsScreen:(context) =>CreateEventsScreen(),
-        RouteNames.eventDetailsScreen:(context) =>EventDetailsScreen(),
-        RouteNames.editEventScreen:(context) =>EditEventsScreen(),
       },
     );
   }

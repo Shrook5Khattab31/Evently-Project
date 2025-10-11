@@ -1,14 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/screens/eventCreation/editEventScreen.dart';
-import 'package:evently_project/screens/eventCreation/eventInfo/eventRepository.dart';
-import 'package:evently_project/utils/appAssets.dart';
-import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import '../../providers/appEventProvider.dart';
-import '../../utils/firebaseUtils.dart';
-import 'eventInfo/eventModel.dart';
+import 'eventModel.dart';
 import '../../reusableWidgets/c_elevatedButton.dart';
 import '../../utils/appColors.dart';
 import '../../utils/appStyles.dart';

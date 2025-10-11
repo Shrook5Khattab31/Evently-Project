@@ -1,12 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import '../../../eventCreation/eventInfo/eventModel.dart';
-import '../../../eventCreation/eventInfo/eventRepository.dart';
+import '../../../eventCreation/eventModel.dart';
 import '../../../../providers/appThemeProvider.dart';
 
 class EventsWidget extends StatelessWidget {
@@ -20,8 +18,8 @@ class EventsWidget extends StatelessWidget {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     var themeProvider = Provider.of<AppThemeProvider>(context);
-    final date = DateFormat('dd').format(event.date);
-    final month = DateFormat('MMM').format(event.date);
+    final date = DateFormat('dd').format(event.eventDate);
+    final month = DateFormat('MMM').format(event.eventDate);
 
     return InkWell(
       onTap: onTap,
@@ -31,7 +29,7 @@ class EventsWidget extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.primaryColor),
           image: DecorationImage(
-            image: AssetImage(EventRepository.categoryImages[event.category] ?? AppAssets.sportEventImg),
+            image: AssetImage(event.eventImg),
             fit: BoxFit.cover,
           ),
         ),
@@ -45,7 +43,7 @@ class EventsWidget extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(vertical: height * 0.009, horizontal: width * 0.02),
               decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor.withOpacity(0.85),
+                color: Theme.of(context).scaffoldBackgroundColor.withValues(alpha: 0.85),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(

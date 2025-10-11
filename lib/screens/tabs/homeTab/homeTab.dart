@@ -3,11 +3,11 @@ import 'package:evently_project/screens/tabs/homeTab/widgets/customTab.dart';
 import 'package:evently_project/screens/tabs/homeTab/widgets/eventsWidget.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
-import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import '../../eventCreation/eventInfo/eventRepository.dart';
+import '../../../providers/appEventProvider.dart';
+import '../../eventCreation/eventDetailsScreen.dart';
 import '../../../providers/appLanguageProvider.dart';
 import '../../../providers/appThemeProvider.dart';
 
@@ -29,14 +29,16 @@ class _HomeTabState extends State<HomeTab> {
     LineAwesome.warehouse_solid,LineAwesome.book_open_solid,
   ];
 
-  int selectedIndex=0;
-
   @override
   Widget build(BuildContext context) {
     var width=MediaQuery.of(context).size.width;
     var height=MediaQuery.of(context).size.height;
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var themeProvider = Provider.of<AppThemeProvider>(context);
+    var eventprovider = Provider.of<AppEventProvider>(context);
+    if(eventprovider.events.isEmpty){
+      eventprovider.getAllEvents();
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -81,13 +83,13 @@ class _HomeTabState extends State<HomeTab> {
               ],
             ),
             DefaultTabController(
-              initialIndex: selectedIndex,
+              initialIndex: eventprovider.selectedIndex,
               length: categories.length,
               child: TabBar(
                 padding: EdgeInsetsGeometry.only(top: height*0.009),
                 isScrollable: true,
                 labelPadding: EdgeInsetsGeometry.directional(start: width*0.02),
-                onTap: (index)=> selectedIndex=index,
+                onTap: (index)=> eventprovider.changeSelectedIndex(index),
                 tabs: List.generate(categories.length, (index)=>
                   CustomTab(icon: eventIcons[index], label: categories[index])),
               ),
@@ -100,21 +102,27 @@ class _HomeTabState extends State<HomeTab> {
         child: Column(
           children: [
             Expanded(
-              child: ListView.separated(
+              child: eventprovider.events.isEmpty?
+                  Center(child: Text('Searching for events'),):
+              ListView.separated(
                 itemBuilder: (context, index) {
-                final event = EventRepository.events[index];
                   return InkWell(
-                    onTap: () async {
-                      final changed = await Navigator.pushNamed(context, RouteNames.eventDetailsScreen,arguments: event);
-                      if (changed == true) {
-                        setState(() {});
-                      }
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EventDetailsScreen(event: eventprovider.filteredEvents[index]),
+                        ),
+                      );
+                      eventprovider.selectedIndex == 0
+                          ? eventprovider.getAllEvents()
+                          : eventprovider.getFilteredEvents();
                     },
-                    child: EventsWidget(event: event),
+                    child: EventsWidget(event: eventprovider.filteredEvents[index]),
                   );
                 },
                 separatorBuilder: (context, index) => SizedBox(height: height*0.019,),
-                itemCount: EventRepository.events.length,
+                itemCount: eventprovider.filteredEvents.length,
               ),
             ),
           ],

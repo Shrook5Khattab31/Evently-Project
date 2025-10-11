@@ -1,4 +1,4 @@
-import 'package:evently_project/screens/eventCreation/eventInfo/eventModel.dart';
+import 'package:evently_project/screens/eventCreation/eventModel.dart';
 import 'package:evently_project/utils/appAssets.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -14,7 +14,7 @@ class EventModel {
   String eventImg;
   String eventName;
   bool isFavourite;
-  
+
   static List<IconData> eventIcons = [
     Icons.directions_bike,LineAwesome.birthday_cake_solid,
     LineAwesome.database_solid,LineAwesome.gamepad_solid,

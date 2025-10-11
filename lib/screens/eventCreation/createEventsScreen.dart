@@ -10,8 +10,7 @@ import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-import 'eventInfo/eventModel.dart';
-import 'eventInfo/eventRepository.dart';
+import 'eventModel.dart';
 import '../../utils/appStyles.dart';
 
 class CreateEventsScreen extends StatefulWidget {
