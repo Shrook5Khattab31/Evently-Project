@@ -1,22 +1,29 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently_project/screens/eventCreation/editEventScreen.dart';
 import 'package:evently_project/screens/eventCreation/eventInfo/eventRepository.dart';
 import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
+import 'package:provider/provider.dart';
+import '../../providers/appEventProvider.dart';
+import '../../utils/firebaseUtils.dart';
 import 'eventInfo/eventModel.dart';
-import 'eventInfo/eventsLists.dart';
 import '../../reusableWidgets/c_elevatedButton.dart';
 import '../../utils/appColors.dart';
 import '../../utils/appStyles.dart';
 
 class EventDetailsScreen extends StatelessWidget {
+  late AppEventProvider eventProvider;
+  final EventModel event;
+
+  EventDetailsScreen({required this.event});
 
   @override
   Widget build(BuildContext context) {
     var height =MediaQuery.of(context).size.height;
     var width =MediaQuery.of(context).size.width;
-    final event = ModalRoute.of(context)!.settings.arguments as EventModel;
+    eventProvider= Provider.of<AppEventProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -31,19 +38,27 @@ class EventDetailsScreen extends StatelessWidget {
         actionsPadding: EdgeInsets.symmetric(horizontal: width*0.02),
         actions: [
           InkWell(
-            onTap: () async {
-              final edited= await Navigator.pushNamed(context, RouteNames.editEventScreen,arguments: event);
-              if (edited == true) {
-                Navigator.pop(context, true);
-              }
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditEventsScreen(event: event),
+                ),
+              );
             }, 
             child: Icon(BoxIcons.bxs_edit_alt)
           ),
           SizedBox(width: width*0.02,),
           InkWell(
-            onTap: (){
-              EventRepository.events.remove(event);
-              Navigator.pop(context,true);
+            onTap: () async {
+              eventProvider.deleteEvent(event);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Event deleted successfully')),
+              );
+              eventProvider.getAllEvents();
+              Future.delayed(Duration(seconds: 1), () {
+                Navigator.pop(context);
+              });
             },
             child: Icon(MingCute.delete_2_line,color: Colors.redAccent),
           ),
@@ -60,9 +75,9 @@ class EventDetailsScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16)
                 ),
-                child: Image.asset(EventRepository.categoryImages[event.category] ?? AppAssets.sportEventImg)
+                child: Image.asset(event.eventImg),
             ),
-            Text(event.title,style: AppStyles.medium24primary,),
+            Text(event.title, style: AppStyles.medium24primary),
             Container(
               padding: EdgeInsets.symmetric(horizontal: width*0.02,vertical: height*0.007),
               decoration: BoxDecoration(
@@ -85,8 +100,8 @@ class EventDetailsScreen extends StatelessWidget {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(DateFormat('dd MMMM yyyy').format(event.date),style: AppStyles.medium16primary,),
-                      Text(event.time.format(context),style: Theme.of(context).textTheme.bodySmall,)
+                      Text(DateFormat('dd MMMM yyyy').format(event.eventDate), style: AppStyles.medium16primary),
+                      Text(event.eventTime, style: Theme.of(context).textTheme.bodySmall),
                     ],
                   ),
                 ],
@@ -133,7 +148,7 @@ class EventDetailsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('description',style: Theme.of(context).textTheme.bodySmall,).tr(),
-                Text(event.description,style: Theme.of(context).textTheme.bodySmall,),
+                Text(event.description, style: Theme.of(context).textTheme.bodySmall),
               ],
             ),
             SizedBox(height: height*0.02,),
