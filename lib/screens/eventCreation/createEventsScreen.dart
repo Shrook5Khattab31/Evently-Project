@@ -1,17 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently_project/screens/eventCreation/eventInfo/eventsLists.dart';
+import 'package:evently_project/providers/appEventProvider.dart';
 import 'package:evently_project/reusableWidgets/c_elevatedButton.dart';
 import 'package:evently_project/reusableWidgets/c_hyperLink.dart';
 import 'package:evently_project/reusableWidgets/c_textFormField.dart';
 import 'package:evently_project/screens/tabs/homeTab/widgets/customTab.dart';
-import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/appColors.dart';
+import 'package:evently_project/utils/firebaseUtils.dart';
 import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-
-import 'eventInfo/eventModel.dart';
-import 'eventInfo/eventRepository.dart';
+import 'package:provider/provider.dart';
+import 'eventModel.dart';
 import '../../utils/appStyles.dart';
 
 class CreateEventsScreen extends StatefulWidget {
@@ -21,20 +20,22 @@ class CreateEventsScreen extends StatefulWidget {
 
 class _CreateEventsScreenState extends State<CreateEventsScreen> {
   int selectedIndex=0;
+  late AppEventProvider eventProvider;
   DateTime? selectedDate;
   String formatedDate='';
   TimeOfDay? selectedTime;
   String formatedTime='';
-  final formKey = GlobalKey<FormState>();
   String? dateError;
   String? timeError;
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  var titleController = TextEditingController();
+  var descriptionController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     var height =MediaQuery.of(context).size.height;
     var width =MediaQuery.of(context).size.width;
+    eventProvider= Provider.of<AppEventProvider>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height*0.076,
@@ -59,11 +60,11 @@ class _CreateEventsScreenState extends State<CreateEventsScreen> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16)
                   ),
-                  child: Image.asset(EventsLists.eventsImages[selectedIndex])
+                  child: Image.asset(EventModel.eventsImages[selectedIndex])
                 ),
                 DefaultTabController(
                   initialIndex: selectedIndex,
-                  length: EventsLists.events.length,
+                  length: eventProvider.eventCategories.length,
                   child: TabBar(
                     indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(46),
@@ -74,13 +75,14 @@ class _CreateEventsScreenState extends State<CreateEventsScreen> {
                     padding: EdgeInsetsGeometry.only(top: height*0.009),
                     isScrollable: true,
                     labelPadding: EdgeInsetsGeometry.directional(start: width*0.02),
-                    onTap: (index)=>setState(() {
+                    onTap: (index) {
                       selectedIndex=index;
-                    }),
+                      eventProvider.changeSelectedIndex(index);
+                    },
                     tabs: List.generate(
-                      EventsLists.events.length,
+                      eventProvider.eventCategories.length,
                       (index)=> CustomTab(
-                        icon: EventsLists.eventIcons[index], label: EventsLists.events[index],
+                        icon: EventModel.eventIcons[index], label: eventProvider.eventCategories[index],
                         borderColor: AppColors.primaryColor,),
                     ),
                   ),
@@ -217,6 +219,12 @@ class _CreateEventsScreenState extends State<CreateEventsScreen> {
       ),
     );
   }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    eventProvider.getAllEvents();
+  }
   void choseDate() async{
     var choosenDate= await showDatePicker(
       context: context,
@@ -252,15 +260,29 @@ class _CreateEventsScreenState extends State<CreateEventsScreen> {
     setState(() {});
     if (isValid && dateError == null && timeError == null) {
       // todo: add event
-      EventRepository.events.add(EventModel(
+      EventModel event=EventModel(
         title: titleController.text,
         description: descriptionController.text,
-        date: selectedDate!,
-        time: selectedTime!,
+        eventDate: selectedDate!,
+        eventTime: formatedTime,
         location: 'Cairo, Egypt',
-        category: EventsLists.events[selectedIndex],
-      ));
-      Navigator.pushNamed(context, RouteNames.homeScreen);
+        eventImg: EventModel.eventsImages[selectedIndex],
+        eventName: eventProvider.eventCategories[selectedIndex],
+      );
+      FirebaseUtils.addEventToFireStore(event).timeout(Duration(seconds: 1),
+        onTimeout: () {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: AppColors.primaryColor,
+              content: Text('${titleController.text} has been added successfully'),
+              duration: Duration(seconds: 1),
+            ),
+          );
+          Future.delayed(Duration(seconds: 1), () {
+            Navigator.pop(context);
+          });
+        },
+      );
     }
   }
 }

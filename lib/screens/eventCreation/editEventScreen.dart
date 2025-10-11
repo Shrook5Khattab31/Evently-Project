@@ -1,58 +1,58 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:evently_project/screens/eventCreation/eventInfo/eventsLists.dart';
 import 'package:evently_project/reusableWidgets/c_elevatedButton.dart';
 import 'package:evently_project/reusableWidgets/c_hyperLink.dart';
 import 'package:evently_project/reusableWidgets/c_textFormField.dart';
 import 'package:evently_project/screens/tabs/homeTab/widgets/customTab.dart';
 import 'package:evently_project/utils/appColors.dart';
-import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
-import 'eventInfo/eventModel.dart';
-import 'eventInfo/eventRepository.dart';
+import 'package:provider/provider.dart';
+import '../../providers/appEventProvider.dart';
+import 'eventModel.dart';
 import '../../utils/appStyles.dart';
 
 class EditEventsScreen extends StatefulWidget {
+  final EventModel event;
+  EditEventsScreen({required this.event});
   @override
   State<EditEventsScreen> createState() => _EditEventsScreenState();
 }
 
 class _EditEventsScreenState extends State<EditEventsScreen> {
-  int selectedIndex=0;
+  late int selectedIndex;
   DateTime? selectedDate;
   String formatedDate='';
   TimeOfDay? selectedTime;
   String formatedTime='';
+  late String eventImg;
   final formKey = GlobalKey<FormState>();
   String? dateError;
   String? timeError;
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   late EventModel event;
+  late AppEventProvider eventProvider;
 
   @override
   void initState() {
     super.initState();
+    event = widget.event;
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final passedEvent = ModalRoute.of(context)!.settings.arguments as EventModel;
-      event = passedEvent;
       titleController.text = event.title;
       descriptionController.text = event.description;
-      selectedDate = event.date;
-      selectedTime = event.time;
-      selectedIndex = EventsLists.events.indexOf(event.category);
-      formatedDate = DateFormat('dd/MM/yyyy').format(event.date);
-      formatedTime = event.time.format(context);
+      selectedDate = event.eventDate;
+      selectedIndex = eventProvider.eventCategories.indexOf(event.eventName);
+      formatedDate = DateFormat('dd/MM/yyyy').format(event.eventDate);
+      selectedTime = parseTimeOfDay(event.eventTime);
+      formatedTime = selectedTime!.format(context);
       setState(() {});
     });
   }
-
-
   @override
   Widget build(BuildContext context) {
     var height =MediaQuery.of(context).size.height;
     var width =MediaQuery.of(context).size.width;
-    final event = ModalRoute.of(context)!.settings.arguments as EventModel;
+    eventProvider = Provider.of<AppEventProvider>(context);
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height*0.076,
@@ -77,11 +77,11 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16)
                     ),
-                    child: Image.asset(EventsLists.eventsImages[selectedIndex])
+                    child: Image.asset(EventModel.eventsImages[selectedIndex])
                 ),
                 DefaultTabController(
                   initialIndex: selectedIndex,
-                  length: EventsLists.events.length,
+                  length: eventProvider.eventCategories.length,
                   child: TabBar(
                     indicator: BoxDecoration(
                       borderRadius: BorderRadius.circular(46),
@@ -96,9 +96,9 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                       selectedIndex=index;
                     }),
                     tabs: List.generate(
-                      EventsLists.events.length,
+                      eventProvider.eventCategories.length,
                           (index)=> CustomTab(
-                        icon: EventsLists.eventIcons[index], label: EventsLists.events[index],
+                        icon: EventModel.eventIcons[index], label: eventProvider.eventCategories[index],
                         borderColor: AppColors.primaryColor,),
                     ),
                   ),
@@ -139,7 +139,7 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                         Text('event_date',style: Theme.of(context).textTheme.bodySmall,).tr(),
                         Spacer(),
                         C_hyperLink(
-                          text: selectedDate==null?'choose_date':formatedDate,
+                          text: formatedDate==''?'choose_date':formatedDate,
                           fontWeight: FontWeight.w500,
                           onPressed: choseDate,
                         ),
@@ -162,7 +162,7 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                         Text('event_time', style: Theme.of(context).textTheme.bodySmall,).tr(),
                         Spacer(),
                         C_hyperLink(
-                          text: selectedTime==null?'choose_time':formatedTime,
+                          text: formatedTime==''?'choose_time':formatedTime,
                           fontWeight: FontWeight.w500,
                           onPressed: choseTime,
                         ),
@@ -220,7 +220,7 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                   ],
                 ),
                 C_elevatedButton(
-                  onPressed: updateEvent,
+                  onPressed: updateEventFromFirestore,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -263,7 +263,13 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
     setState(() {});
   }
 
-  void updateEvent() {
+  TimeOfDay parseTimeOfDay(String timeString) {
+    final format = DateFormat.jm();
+    final dateTime = format.parse(timeString);
+    return TimeOfDay.fromDateTime(dateTime);
+  }
+
+  Future<void> updateEventFromFirestore() async{
     bool isValid = formKey.currentState?.validate() == true;
     dateError = selectedDate == null ? 'date_required'.tr() : null;
     timeError = selectedTime == null ? 'time_required'.tr() : null;
@@ -272,12 +278,18 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
     if (isValid && dateError == null && timeError == null) {
       event.title = titleController.text;
       event.description = descriptionController.text;
-      event.date = selectedDate!;
-      event.time = selectedTime!;
-      event.location = 'Cairo , Egypt';
-      event.category = EventsLists.events[selectedIndex];
+      event.eventDate = selectedDate!;
+      event.eventTime = formatedTime;
+      event.eventImg = EventModel.eventsImages[selectedIndex];
+      event.eventName = eventProvider.eventCategories[selectedIndex];
 
-      Navigator.pop(context, true);
+      eventProvider.updateEvent(event);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Event updated successfully')),
+      );
+      eventProvider.getAllEvents();
+      Navigator.pop(context);
     }
   }
 }

@@ -5,10 +5,6 @@ import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-import '../../eventCreation/eventInfo/eventRepository.dart';
-import '../../../utils/routeNames.dart';
-import '../homeTab/widgets/eventsWidget.dart';
-
 class FavTab extends StatefulWidget {
 
   @override
@@ -34,25 +30,25 @@ class _FavTabState extends State<FavTab> {
                 prefixIconColor: AppColors.primaryColor,
               ),
             ),
-            Expanded(
-              child: ListView.separated(
-                padding: EdgeInsets.only(top: 16),
-                itemBuilder: (context, index)  {
-                  final event = EventRepository.events[index];
-                  return InkWell(
-                    onTap: () async {
-                      final deleted = await Navigator.pushNamed(context, RouteNames.eventDetailsScreen,arguments: event);
-                      if (deleted == true) {
-                        setState(() {});
-                      }
-                    },
-                    child: EventsWidget(event: event),
-                  );
-                },
-                separatorBuilder: (context, index) => SizedBox(height: height*0.019,),
-                itemCount: EventRepository.events.length,
-              ),
-            ),
+            // Expanded(
+            //   child: ListView.separated(
+            //     padding: EdgeInsets.only(top: 16),
+            //     itemBuilder: (context, index)  {
+            //       final event = EventRepository.events[index];
+            //       return InkWell(
+            //         onTap: () async {
+            //           final deleted = await Navigator.pushNamed(context, RouteNames.eventDetailsScreen,arguments: event);
+            //           if (deleted == true) {
+            //             setState(() {});
+            //           }
+            //         },
+            //         child: EventsWidget(event: event),
+            //       );
+            //     },
+            //     separatorBuilder: (context, index) => SizedBox(height: height*0.019,),
+            //     itemCount: EventRepository.events.length,
+            //   ),
+            // ),
           ],
         ),
       ),
