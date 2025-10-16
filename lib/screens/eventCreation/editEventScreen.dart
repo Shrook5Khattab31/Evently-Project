@@ -26,8 +26,6 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
   String formatedTime='';
   late String eventImg;
   final formKey = GlobalKey<FormState>();
-  String? dateError;
-  String? timeError;
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   late EventModel event;
@@ -37,11 +35,12 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
   void initState() {
     super.initState();
     event = widget.event;
+    eventProvider = Provider.of<AppEventProvider>(context,listen: false);
+    selectedIndex = eventProvider.eventCategories.indexOf(event.eventName,);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       titleController.text = event.title;
       descriptionController.text = event.description;
       selectedDate = event.eventDate;
-      selectedIndex = eventProvider.eventCategories.indexOf(event.eventName);
       formatedDate = DateFormat('dd/MM/yyyy').format(event.eventDate);
       selectedTime = parseTimeOfDay(event.eventTime);
       formatedTime = selectedTime!.format(context);
@@ -52,7 +51,7 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
   Widget build(BuildContext context) {
     var height =MediaQuery.of(context).size.height;
     var width =MediaQuery.of(context).size.width;
-    eventProvider = Provider.of<AppEventProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: height*0.076,
@@ -145,16 +144,6 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                         ),
                       ],
                     ),
-                    Visibility(
-                      visible: dateError != null,
-                      child: Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: Text(
-                          dateError ?? '',
-                          style: TextStyle(color: AppColors.redColor, fontSize: 12),
-                        ),
-                      ),
-                    ),
                     Row(
                       children: [
                         Icon(BoxIcons.bx_time,color: Theme.of(context).cardColor,),
@@ -167,16 +156,6 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
                           onPressed: choseTime,
                         ),
                       ],
-                    ),
-                    Visibility(
-                      visible: timeError != null,
-                      child: Align(
-                        alignment: AlignmentDirectional.centerEnd,
-                        child: Text(
-                          timeError ?? '',
-                          style: TextStyle(color: AppColors.redColor, fontSize: 12),
-                        ),
-                      ),
                     ),
                   ],
                 ),
@@ -245,7 +224,6 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
     selectedDate=choosenDate;
     if(selectedDate!=null){
       formatedDate=DateFormat('dd/MM/yyyy').format(selectedDate!);
-      dateError = null;
     }
     setState(() {});
   }
@@ -258,7 +236,6 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
     selectedTime=choosenTime;
     if(selectedTime!=null){
       formatedTime= selectedTime!.format(context);
-      timeError=null;
     }
     setState(() {});
   }
@@ -270,26 +247,25 @@ class _EditEventsScreenState extends State<EditEventsScreen> {
   }
 
   Future<void> updateEventFromFirestore() async{
-    bool isValid = formKey.currentState?.validate() == true;
-    dateError = selectedDate == null ? 'date_required'.tr() : null;
-    timeError = selectedTime == null ? 'time_required'.tr() : null;
-    setState(() {});
+    event.title = titleController.text;
+    event.description = descriptionController.text;
+    event.eventDate = selectedDate!;
+    event.eventTime = formatedTime;
+    event.eventImg = EventModel.eventsImages[selectedIndex];
+    event.eventName = eventProvider.eventCategories[selectedIndex];
 
-    if (isValid && dateError == null && timeError == null) {
-      event.title = titleController.text;
-      event.description = descriptionController.text;
-      event.eventDate = selectedDate!;
-      event.eventTime = formatedTime;
-      event.eventImg = EventModel.eventsImages[selectedIndex];
-      event.eventName = eventProvider.eventCategories[selectedIndex];
+    eventProvider.updateEvent(event);
 
-      eventProvider.updateEvent(event);
-
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Event updated successfully')),
-      );
-      eventProvider.getAllEvents();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Event updated successfully'),
+        backgroundColor: AppColors.primaryColor,
+        duration: Duration(seconds: 1),
+      ),
+    );
+    eventProvider.getAllEvents();
+    Future.delayed(Duration(seconds: 1), () {
       Navigator.pop(context);
-    }
+    });
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_project/screens/eventCreation/eventModel.dart';
 import 'package:evently_project/utils/appAssets.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +57,8 @@ class EventModel {
     description: data['description']as String,
     eventImg: data['event_img'],
     eventName: data['event_name'],
-    eventDate: DateTime.fromMillisecondsSinceEpoch(data['event_date']),
+    eventDate: data['event_date'] is Timestamp? (data['event_date'] as Timestamp).toDate()
+      : DateTime.fromMillisecondsSinceEpoch(data['event_date']),
     eventTime: data['event_time'],
     isFavourite: data['is_favourite']as bool,
     location: data['location']

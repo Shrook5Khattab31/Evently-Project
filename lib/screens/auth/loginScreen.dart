@@ -6,11 +6,12 @@ import 'package:evently_project/reusableWidgets/c_toggleSwitch.dart';
 import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
+import 'package:evently_project/utils/dialogUtils.dart';
 import 'package:evently_project/utils/routeNames.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
-
 import '../../providers/appLanguageProvider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -20,6 +21,9 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   int selectedIndex=0;
+  var formKey = GlobalKey<FormState>();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -35,24 +39,33 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Image.asset(AppAssets.eventlyLogo,height: height*0.22,fit: BoxFit.cover,),
-              Column(
-                spacing: height*0.019,
-                children: [
-                  C_textFormField(hintText: 'email',prefixIcon: Icon(BoxIcons.bxs_envelope),),
-                  C_textFormField(hintText: 'password',
-                    prefixIcon: Icon(BoxIcons.bxs_lock),
-                    suffixIcon: Icon(BoxIcons.bxs_hide),
-                  ),
-                  C_hyperLink(
-                    text: 'forget_password',
-                    isItalic: true,
-                    isUnderlined: true,
-                    alignment: AlignmentDirectional.topEnd,
-                    onPressed: (){
-                      Navigator.pushNamed(context, RouteNames.resetPasswordScreen);
-                    }
-                  ),
-                ],
+              Form(
+                key: formKey,
+                child: Column(
+                  spacing: height*0.019,
+                  children: [
+                    C_textFormField(
+                      controller: emailController,
+                      hintText: 'email',
+                      prefixIcon: Icon(BoxIcons.bxs_envelope),
+                    ),
+                    C_textFormField(
+                      controller: passwordController,
+                      hintText: 'password',
+                      prefixIcon: Icon(BoxIcons.bxs_lock),
+                      suffixIcon: Icon(BoxIcons.bxs_hide),
+                    ),
+                    C_hyperLink(
+                      text: 'forget_password',
+                      isItalic: true,
+                      isUnderlined: true,
+                      alignment: AlignmentDirectional.topEnd,
+                      onPressed: (){
+                        Navigator.pushNamed(context, RouteNames.resetPasswordScreen);
+                      }
+                    ),
+                  ],
+                ),
               ),
               Column(
                 spacing: height*0.02,
@@ -64,9 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text('login_button',style: AppStyles.medium20offWhite,).tr()
                       ],
                     ),
-                    onPressed: (){
-                      Navigator.pushNamed(context, RouteNames.homeScreen);
-                    }
+                    onPressed: ()=> login(),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -130,5 +141,37 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void login() async {
+    if (formKey.currentState?.validate() == true) {
+      DialogUtils.showLoading(context: context, message: 'Loading ...');
+      try {
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text
+        );
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(
+            context: context,
+            message: 'Enjoy :)',
+            title: 'Login successful',
+            posActionName: 'Ok',
+            posAction: (){
+              Navigator.pushNamedAndRemoveUntil(context, RouteNames.homeScreen, (route) => false,);
+            }
+        );
+      } catch (e) {
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(
+          context: context,
+          message: 'The supplied auth credential is incorrect, malformed or has expired.',
+          title: 'Error',
+          posActionName: 'Back',
+        );
+        print(e.toString());
+      }
+    }
   }
 }
