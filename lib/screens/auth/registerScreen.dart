@@ -6,7 +6,9 @@ import 'package:evently_project/reusableWidgets/c_toggleSwitch.dart';
 import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
+import 'package:evently_project/utils/dialogUtils.dart';
 import 'package:evently_project/utils/routeNames.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
@@ -20,6 +22,11 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   int selectedIndex=0;
+  var formKey = GlobalKey<FormState>();
+  var nameController = TextEditingController();
+  var emailController = TextEditingController();
+  var passwordController = TextEditingController();
+  var rePasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -46,33 +53,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
               Image.asset(AppAssets.eventlyLogo,height: height*0.22,fit: BoxFit.cover,),
               Padding(
                 padding: EdgeInsets.only(top: height*0.02),
-                child: Column(
-                  spacing: height*0.019,
-                  children: [
-                    C_textFormField(hintText: 'name',
-                      prefixIcon: Icon(Icons.person),
-                    ),
-                    C_textFormField(hintText: 'email',prefixIcon: Icon(BoxIcons.bxs_envelope),),
-                    C_textFormField(hintText: 'password',
-                      prefixIcon: Icon(BoxIcons.bxs_lock),
-                      suffixIcon: Icon(BoxIcons.bxs_hide),
-                    ),
-                    C_textFormField(hintText: 're_password',
-                      prefixIcon: Icon(BoxIcons.bxs_lock),
-                      suffixIcon: Icon(BoxIcons.bxs_hide),
-                    ),
-                    C_elevatedButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('create_account',style: AppStyles.medium20offWhite,).tr(),
-                        ],
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    spacing: height*0.019,
+                    children: [
+                      C_textFormField(
+                        controller: nameController,
+                        hintText: 'name',
+                        prefixIcon: Icon(Icons.person),
                       ),
-                      onPressed: (){
-                        Navigator.pushNamed(context, RouteNames.homeScreen);
-                      }
-                    ),
-                  ],
+                      C_textFormField(
+                        controller: emailController,
+                        hintText: 'email',
+                        prefixIcon: Icon(BoxIcons.bxs_envelope),
+                      ),
+                      C_textFormField(
+                        controller: passwordController,
+                        hintText: 'password',
+                        prefixIcon: Icon(BoxIcons.bxs_lock),
+                        suffixIcon: Icon(BoxIcons.bxs_hide),
+                      ),
+                      C_textFormField(
+                        controller: rePasswordController,
+                        hintText: 're_password',
+                        prefixIcon: Icon(BoxIcons.bxs_lock),
+                        suffixIcon: Icon(BoxIcons.bxs_hide),
+                      ),
+                      C_elevatedButton(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text('create_account',style: AppStyles.medium20offWhite,).tr(),
+                          ],
+                        ),
+                        onPressed: ()=>register(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Row(
@@ -113,5 +131,34 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+  void register() async {
+    if (formKey.currentState?.validate() == true) {
+      DialogUtils.showLoading(context: context, message: 'Loading ...');
+      try {
+        final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: emailController.text,
+            password: passwordController.text
+        );
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(
+          context: context,
+          message: 'Acount created successfully',
+          title: 'Register successful',
+          posActionName: 'Ok',
+          posAction: (){
+            Navigator.pushNamedAndRemoveUntil(context, RouteNames.homeScreen, (route) => false,);
+          }
+        );
+      } catch (e) {
+        DialogUtils.hideLoading(context: context);
+        DialogUtils.showMessage(
+          context: context,
+          message: 'The email address is already in use by another account.',
+          title: 'Error',
+          posActionName: 'Back',
+        );
+      }
+    }
   }
 }
