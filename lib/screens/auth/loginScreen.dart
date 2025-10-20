@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/reusableWidgets/c_elevatedButton.dart';
 import 'package:evently_project/reusableWidgets/c_hyperLink.dart';
@@ -7,12 +9,14 @@ import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
 import 'package:evently_project/utils/dialogUtils.dart';
+import 'package:evently_project/utils/googleSignInUtils.dart';
 import 'package:evently_project/utils/routeNames.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import '../../providers/appLanguageProvider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -105,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   C_elevatedButton(
                     borderColor: AppColors.primaryColor,
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    onPressed: signInWithGoogle,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -113,9 +118,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text('login_with_google',style:AppStyles.medium20primary).tr(),
                       ],
                     ),
-                    onPressed: (){
-                      Navigator.pushNamed(context, RouteNames.homeScreen);
-                    }
                   ),
                   C_ToggleSwitch(
                     selectedIndex: selectedIndex,
@@ -141,6 +143,53 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void signInWithGoogle() async {
+    DialogUtils.showLoading(context: context, message: 'Loading ...');
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+      await googleSignIn.initialize(
+        serverClientId:
+        '867964367777-8vsrq1v5s5ji2pl0e88ti3s8pjo5b9qv.apps.googleusercontent.com',
+      );
+      final googleUser = await googleSignIn.authenticate();
+      final idToken = googleUser.authentication.idToken;
+      final authorizationClient = googleUser.authorizationClient;
+
+      final authorization = await authorizationClient.authorizationForScopes(['email', 'profile']) ??
+      await authorizationClient.authorizationForScopes(['email', 'profile']);
+
+      final accessToken = authorization?.accessToken;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: accessToken,
+        idToken: idToken,
+      );
+      final UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+      final user = userCredential.user;
+
+      DialogUtils.hideLoading(context: context);
+      DialogUtils.showMessage(
+          context: context,
+          message: 'Enjoy :)',
+          title: 'Login successful',
+          posActionName: 'Ok',
+          posAction: (){
+            Navigator.pushNamedAndRemoveUntil(context, RouteNames.homeScreen, (route) => false,);
+          }
+      );
+    }catch (e){
+      DialogUtils.hideLoading(context: context);
+      DialogUtils.showMessage(
+        context: context,
+        message: 'Google Sign in process has been inturpted',
+        title: 'Error',
+        posActionName: 'Back',
+      );
+      print(e.toString());
+    }
   }
 
   void login() async {
