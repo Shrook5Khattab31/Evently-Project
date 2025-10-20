@@ -54,6 +54,8 @@ class AppThemes{
       displaySmall: AppStyles.bold20black,
       displayMedium: AppStyles.medium16gray,
       displayLarge: AppStyles.bold16lightBlue,
+
+      labelSmall: AppStyles.bold14black,
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(
@@ -126,6 +128,8 @@ class AppThemes{
       displaySmall: AppStyles.bold20offWhite,
       displayMedium: AppStyles.medium16offWhite,
       displayLarge: AppStyles.bold16darkPrimary,
+
+      labelSmall: AppStyles.bold14offWhite,
     ),
 
     bottomAppBarTheme: BottomAppBarThemeData(

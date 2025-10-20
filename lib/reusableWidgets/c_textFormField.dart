@@ -11,6 +11,7 @@ class C_textFormField extends StatelessWidget {
   Widget? prefixIcon;
   Widget? suffixIcon;
   int? maxLines;
+  Function(String)? onChanged;
   TextEditingController? controller;
   C_textFormField({
     required this.hintText,
@@ -21,13 +22,14 @@ class C_textFormField extends StatelessWidget {
     this.suffixIcon,
     this.prefixIconColor,
     this.maxLines = 1,
+    this.onChanged,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      style: Theme.of(context).textTheme.displayMedium,
+      style: hintStyle??Theme.of(context).textTheme.displayMedium,
       validator: (text){
         if(text ==null || text.trim().isEmpty){
           return 'please_enter_required_info'.tr();
@@ -35,6 +37,7 @@ class C_textFormField extends StatelessWidget {
         return null;
       },
       maxLines: maxLines,
+      onChanged: onChanged,
       decoration: InputDecoration(
         hintText: hintText.tr(),
         hintStyle: hintStyle??Theme.of(context).textTheme.displayMedium,
