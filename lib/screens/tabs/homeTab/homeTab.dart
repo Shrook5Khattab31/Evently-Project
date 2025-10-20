@@ -28,17 +28,23 @@ class _HomeTabState extends State<HomeTab> {
     LineAwesome.ship_solid,LineAwesome.glasses_solid,
     LineAwesome.warehouse_solid,LineAwesome.book_open_solid,
   ];
-
+  late AppEventProvider eventProvider;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      eventProvider.getAllEvents();
+      eventProvider.getFavouriteEvents();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     var width=MediaQuery.of(context).size.width;
     var height=MediaQuery.of(context).size.height;
     var languageProvider = Provider.of<AppLanguageProvider>(context);
     var themeProvider = Provider.of<AppThemeProvider>(context);
-    var eventprovider = Provider.of<AppEventProvider>(context);
-    if(eventprovider.events.isEmpty){
-      eventprovider.getAllEvents();
-    }
+    eventProvider = Provider.of<AppEventProvider>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
@@ -83,13 +89,13 @@ class _HomeTabState extends State<HomeTab> {
               ],
             ),
             DefaultTabController(
-              initialIndex: eventprovider.selectedIndex,
+              initialIndex: eventProvider.selectedIndex,
               length: categories.length,
               child: TabBar(
                 padding: EdgeInsetsGeometry.only(top: height*0.009),
                 isScrollable: true,
                 labelPadding: EdgeInsetsGeometry.directional(start: width*0.02),
-                onTap: (index)=> eventprovider.changeSelectedIndex(index),
+                onTap: (index)=> eventProvider.changeSelectedIndex(index),
                 tabs: List.generate(categories.length, (index)=>
                   CustomTab(icon: eventIcons[index], label: categories[index])),
               ),
@@ -102,7 +108,7 @@ class _HomeTabState extends State<HomeTab> {
         child: Column(
           children: [
             Expanded(
-              child: eventprovider.events.isEmpty?
+              child: eventProvider.events.isEmpty?
                   Center(child: Text('Searching for events'),):
               ListView.separated(
                 itemBuilder: (context, index) {
@@ -111,18 +117,16 @@ class _HomeTabState extends State<HomeTab> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => EventDetailsScreen(event: eventprovider.filteredEvents[index]),
+                          builder: (context) => EventDetailsScreen(event: eventProvider.filteredEvents[index]),
                         ),
                       );
-                      eventprovider.selectedIndex == 0
-                          ? eventprovider.getAllEvents()
-                          : eventprovider.getFilteredEvents();
+                      eventProvider.selectedIndex == 0?eventProvider.getAllEvents():eventProvider.getFilteredEvents();
                     },
-                    child: EventsWidget(event: eventprovider.filteredEvents[index]),
+                    child: EventsWidget(event: eventProvider.filteredEvents[index]),
                   );
                 },
                 separatorBuilder: (context, index) => SizedBox(height: height*0.019,),
-                itemCount: eventprovider.filteredEvents.length,
+                itemCount: eventProvider.filteredEvents.length,
               ),
             ),
           ],

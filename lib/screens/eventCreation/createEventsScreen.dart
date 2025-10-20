@@ -6,7 +6,6 @@ import 'package:evently_project/reusableWidgets/c_textFormField.dart';
 import 'package:evently_project/screens/tabs/homeTab/widgets/customTab.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/firebaseUtils.dart';
-import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
@@ -269,8 +268,7 @@ class _CreateEventsScreenState extends State<CreateEventsScreen> {
         eventImg: EventModel.eventsImages[selectedIndex],
         eventName: eventProvider.eventCategories[selectedIndex],
       );
-      FirebaseUtils.addEventToFireStore(event).timeout(Duration(seconds: 1),
-        onTimeout: () {
+      FirebaseUtils.addEventToFireStore(event).then((_){
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               backgroundColor: AppColors.primaryColor,

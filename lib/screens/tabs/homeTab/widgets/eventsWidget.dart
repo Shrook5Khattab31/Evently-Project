@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:evently_project/providers/appEventProvider.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
 import 'package:flutter/material.dart';
@@ -7,29 +8,35 @@ import 'package:provider/provider.dart';
 import '../../../eventCreation/eventModel.dart';
 import '../../../../providers/appThemeProvider.dart';
 
-class EventsWidget extends StatelessWidget {
+class EventsWidget extends StatefulWidget {
   final EventModel event;
   final VoidCallback? onTap;
 
   EventsWidget({required this.event, this.onTap});
 
   @override
+  State<EventsWidget> createState() => _EventsWidgetState();
+}
+
+class _EventsWidgetState extends State<EventsWidget> {
+
+  @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    var themeProvider = Provider.of<AppThemeProvider>(context);
-    final date = DateFormat('dd').format(event.eventDate);
-    final month = DateFormat('MMM').format(event.eventDate);
+    final date = DateFormat('dd').format(widget.event.eventDate);
+    final month = DateFormat('MMM').format(widget.event.eventDate);
+    var eventProvider = Provider.of<AppEventProvider>(context);
 
     return InkWell(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: height * 0.009, horizontal: width * 0.02),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
           border: Border.all(color: AppColors.primaryColor),
           image: DecorationImage(
-            image: AssetImage(event.eventImg),
+            image: AssetImage(widget.event.eventImg),
             fit: BoxFit.cover,
           ),
         ),
@@ -54,7 +61,7 @@ class EventsWidget extends StatelessWidget {
               ),
             ),
             Container(
-              padding: EdgeInsets.symmetric(vertical: height * 0.009, horizontal: width * 0.02),
+              padding: EdgeInsets.symmetric(horizontal: width * 0.02),
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Theme.of(context).scaffoldBackgroundColor,
@@ -65,13 +72,24 @@ class EventsWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: Text(
-                      event.title,
-                      style: themeProvider.appTheme == 'light'
-                          ?AppStyles.bold14black:AppStyles.bold14offWhite,
+                      widget.event.title,
+                      style: Theme.of(context).textTheme.labelSmall,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  Icon(LineAwesome.heart_solid, color: AppColors.primaryColor),
+                  IconButton(
+                    onPressed: (){
+                      setState(() {
+                        widget.event.isFavourite = ! widget.event.isFavourite;
+                        eventProvider.getFavouriteEvents();
+                        eventProvider.updateFavEvent(widget.event);
+                      });
+                    },
+                    icon: Icon(
+                      widget.event.isFavourite? LineAwesome.heart_solid : LineAwesome.heart,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
                 ],
               ),
             ),
