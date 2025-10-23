@@ -109,7 +109,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   Text('onBoarding_button',style: AppStyles.medium20offWhite,).tr(),
                 ],
               ),
-              onPressed: ()=> Navigator.pushNamed(context, RouteNames.introScreen),
+              onPressed: ()=> Navigator.pushNamedAndRemoveUntil(context, RouteNames.introScreen,(route) => false,),
             ),
           ],
         ),

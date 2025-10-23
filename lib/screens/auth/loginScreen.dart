@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:evently_project/reusableWidgets/c_elevatedButton.dart';
 import 'package:evently_project/reusableWidgets/c_hyperLink.dart';
@@ -9,7 +7,6 @@ import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appStyles.dart';
 import 'package:evently_project/utils/dialogUtils.dart';
-import 'package:evently_project/utils/googleSignInUtils.dart';
 import 'package:evently_project/utils/routeNames.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +22,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   int selectedIndex=0;
+  bool isPassword= true;
   var formKey = GlobalKey<FormState>();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
@@ -57,7 +55,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: passwordController,
                       hintText: 'password',
                       prefixIcon: Icon(BoxIcons.bxs_lock),
-                      suffixIcon: Icon(BoxIcons.bxs_hide),
+                      isPassword: isPassword,
+                      suffixIcon: IconButton(
+                        onPressed: (){
+                          setState(() {
+                            isPassword=!isPassword;
+                          });
+                        },
+                        icon: isPassword?Icon(BoxIcons.bxs_hide):Icon(BoxIcons.bxs_show),
+                      ),
                     ),
                     C_hyperLink(
                       text: 'forget_password',

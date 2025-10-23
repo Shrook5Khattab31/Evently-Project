@@ -3,8 +3,8 @@ import 'package:evently_project/providers/appLanguageProvider.dart';
 import 'package:evently_project/utils/appColors.dart';
 import 'package:evently_project/utils/appAssets.dart';
 import 'package:evently_project/utils/appStyles.dart';
+import 'package:evently_project/utils/routeNames.dart';
 import 'package:flutter/material.dart';
-import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import '../../../providers/appThemeProvider.dart';
 
@@ -95,7 +95,9 @@ class _ProfileTabState extends State<ProfileTab> {
             ),
             Spacer(),
             ElevatedButton(
-              onPressed: (){}, 
+              onPressed: (){
+                Navigator.pushNamedAndRemoveUntil(context, RouteNames.loginScreen, (route) => false,);
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.redColor,
                 padding: EdgeInsets.all(16),

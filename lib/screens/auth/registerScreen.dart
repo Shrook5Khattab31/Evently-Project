@@ -22,6 +22,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   int selectedIndex=0;
+  bool isPassword= true;
   var formKey = GlobalKey<FormState>();
   var nameController = TextEditingController();
   var emailController = TextEditingController();
@@ -72,13 +73,29 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         controller: passwordController,
                         hintText: 'password',
                         prefixIcon: Icon(BoxIcons.bxs_lock),
-                        suffixIcon: Icon(BoxIcons.bxs_hide),
+                        isPassword: isPassword,
+                        suffixIcon: IconButton(
+                          onPressed: (){
+                            setState(() {
+                              isPassword=!isPassword;
+                            });
+                          },
+                          icon: isPassword?Icon(BoxIcons.bxs_hide):Icon(BoxIcons.bxs_show),
+                        ),
                       ),
                       C_textFormField(
                         controller: rePasswordController,
                         hintText: 're_password',
                         prefixIcon: Icon(BoxIcons.bxs_lock),
-                        suffixIcon: Icon(BoxIcons.bxs_hide),
+                        isPassword: isPassword,
+                        suffixIcon: IconButton(
+                          onPressed: (){
+                            setState(() {
+                              isPassword=!isPassword;
+                            });
+                          },
+                          icon: isPassword?Icon(BoxIcons.bxs_hide):Icon(BoxIcons.bxs_show),
+                        ),
                       ),
                       C_elevatedButton(
                         child: Row(

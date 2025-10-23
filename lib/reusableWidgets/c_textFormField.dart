@@ -13,6 +13,9 @@ class C_textFormField extends StatelessWidget {
   int? maxLines;
   Function(String)? onChanged;
   TextEditingController? controller;
+  final bool isPassword;
+  final VoidCallback? onToggleVisibility;
+
   C_textFormField({
     required this.hintText,
     this.controller,
@@ -23,11 +26,14 @@ class C_textFormField extends StatelessWidget {
     this.prefixIconColor,
     this.maxLines = 1,
     this.onChanged,
+    this.isPassword = false,
+    this.onToggleVisibility,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      obscureText: isPassword,
       controller: controller,
       style: hintStyle??Theme.of(context).textTheme.displayMedium,
       validator: (text){
