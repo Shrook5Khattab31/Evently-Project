@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:icons_plus/icons_plus.dart';
 import 'package:provider/provider.dart';
 import '../../providers/appLanguageProvider.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -21,6 +22,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   int selectedIndex=0;
+  bool isPassword= true;
   var formKey = GlobalKey<FormState>();
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
@@ -53,7 +55,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       controller: passwordController,
                       hintText: 'password',
                       prefixIcon: Icon(BoxIcons.bxs_lock),
-                      suffixIcon: Icon(BoxIcons.bxs_hide),
+                      isPassword: isPassword,
+                      suffixIcon: IconButton(
+                        onPressed: (){
+                          setState(() {
+                            isPassword=!isPassword;
+                          });
+                        },
+                        icon: isPassword?Icon(BoxIcons.bxs_hide):Icon(BoxIcons.bxs_show),
+                      ),
                     ),
                     C_hyperLink(
                       text: 'forget_password',
@@ -105,6 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   C_elevatedButton(
                     borderColor: AppColors.primaryColor,
                     backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    onPressed: signInWithGoogle,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -113,9 +124,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text('login_with_google',style:AppStyles.medium20primary).tr(),
                       ],
                     ),
-                    onPressed: (){
-                      Navigator.pushNamed(context, RouteNames.homeScreen);
-                    }
                   ),
                   C_ToggleSwitch(
                     selectedIndex: selectedIndex,
@@ -141,6 +149,53 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void signInWithGoogle() async {
+    DialogUtils.showLoading(context: context, message: 'Loading ...');
+    try {
+      final GoogleSignIn googleSignIn = GoogleSignIn.instance;
+      await googleSignIn.initialize(
+        serverClientId:
+        '867964367777-8vsrq1v5s5ji2pl0e88ti3s8pjo5b9qv.apps.googleusercontent.com',
+      );
+      final googleUser = await googleSignIn.authenticate();
+      final idToken = googleUser.authentication.idToken;
+      final authorizationClient = googleUser.authorizationClient;
+
+      final authorization = await authorizationClient.authorizationForScopes(['email', 'profile']) ??
+      await authorizationClient.authorizationForScopes(['email', 'profile']);
+
+      final accessToken = authorization?.accessToken;
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: accessToken,
+        idToken: idToken,
+      );
+      final UserCredential userCredential = await FirebaseAuth.instance
+          .signInWithCredential(credential);
+      final user = userCredential.user;
+
+      DialogUtils.hideLoading(context: context);
+      DialogUtils.showMessage(
+          context: context,
+          message: 'Enjoy :)',
+          title: 'Login successful',
+          posActionName: 'Ok',
+          posAction: (){
+            Navigator.pushNamedAndRemoveUntil(context, RouteNames.homeScreen, (route) => false,);
+          }
+      );
+    }catch (e){
+      DialogUtils.hideLoading(context: context);
+      DialogUtils.showMessage(
+        context: context,
+        message: 'Google Sign in process has been inturpted',
+        title: 'Error',
+        posActionName: 'Back',
+      );
+      print(e.toString());
+    }
   }
 
   void login() async {
